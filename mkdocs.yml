@@ -2,3 +2,5 @@ site_name: Damon Henry
 site_url: https://romanumero.github.io
 theme:
   name: material
+  palette:
+    scheme: slate
