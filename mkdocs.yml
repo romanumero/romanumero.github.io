@@ -4,3 +4,4 @@ theme:
   name: material
   palette:
     scheme: slate
+    primary: white
