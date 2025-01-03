@@ -1,7 +1,7 @@
 site_name: Damon Henry
 site_url: https://romanumero.github.io
 nav:
-  - Writing:
+  - Home:
       - Archive:
           - 2024: archive/2024.md
           - 2023: archive/2023.md
@@ -19,6 +19,7 @@ theme:
   name: material
   features:
     - navigation.expand
+    - navigation.tabs
   palette:
     scheme: slate
     primary: white
