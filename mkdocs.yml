@@ -1,5 +1,9 @@
 site_name: Damon Henry
 site_url: https://romanumero.github.io
+nav:
+  - Home: index.md
+  - Thoughts:
+      - Archive: thoughts/index.md
 theme:
   name: material
   palette:
