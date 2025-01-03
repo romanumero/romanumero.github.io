@@ -1,9 +1,20 @@
 site_name: Damon Henry
 site_url: https://romanumero.github.io
 nav:
-  - Home: index.md
-  - Thoughts:
-      - Archive: thoughts/index.md
+  - Writing:
+      - Archive:
+          - 2024: archive/2024.md
+          - 2023: archive/2023.md
+          - 2022: archive/2022.md
+      - Categories:
+          - Applied AI: categories/applied-ai.md
+          - Consulting: categories/consulting.md
+          - Losing my Hands: categories/losing-my-hands.md
+          - Personal: categories/personal.md
+          - Personal Growth: categories/personal-growth.md
+          - RAG: categories/rag.md
+          - Software Engineering: categories/software-engineering.md
+          - Writing and Communication: categories/writing-and-communication.md
 theme:
   name: material
   features:
