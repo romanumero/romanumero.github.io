@@ -6,6 +6,8 @@ nav:
       - Archive: thoughts/index.md
 theme:
   name: material
+  features:
+    - navigation.expand
   palette:
     scheme: slate
     primary: white
