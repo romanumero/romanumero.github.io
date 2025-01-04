@@ -7,8 +7,8 @@ theme:
     - navigation.indexes
     - navigation.expand
   palette:
-    scheme: slate
-    primary: white
+    scheme: default
+    #primary: white
 extra:
   social:
     - icon: fontawesome/brands/x-twitter
@@ -17,7 +17,12 @@ extra:
       link: https://www.linkedin.com/in/damonhenry/
 copyright: Copyright &copy; 2025 Damon Henry
 nav:
-  - index.md
+  - Home:
+      - Introductions: "index.md"
+      - Investments: "investments.md"
+      #- User Manual: "user_manual.md"
+      - Books: "books.md"
+      - Tools: "tools.md"
   - Thoughts and Rambles:
       - writing/index.md
 plugins:
@@ -26,3 +31,5 @@ plugins:
       blog_dir: writing
       blog_toc: true
   - search
+extra_css:
+  - ./css/global.css

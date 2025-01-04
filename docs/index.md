@@ -1,17 +1,7 @@
-# Home
+# Welcome
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+I'm the CEO and Founder @ [KORTX](https://www.kortx.io), full stack software and data engineer, angel investor, and startup advisor. I write about my business experiences, technology, and how to systematically improve marketing and advertising.
 
-## Commands
+After years of leading technology and media teams for holding companies and startups, building marketing solutions for some of the world’s largest brands, I launched KORTX—and I’ve never looked back.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+I've helped countless brands and agencies meet their marketing objectives through the use of technology. When I'm not working on the business at KORTX, I'm evaluating technology and AI tools to empower our customers. I hope to give back by sharing some of what I've learned throughout my journey with all of you.
