@@ -1,17 +1,17 @@
 site_name: Damon Henry
 site_url: https://romanumero.github.io
-nav:
-  - Home:
-      - Archive:
-          - 2025: archive/2024.md
-      - Categories:
-          - Democratizing marketing: categories/applied-ai.md
-          - Losing my Hands: categories/losing-my-hands.md
-          - Personal: categories/personal.md
-          - Personal Growth: categories/personal-growth.md
-          - Leadership: categories/rag.md
-          - Software Engineering: categories/software-engineering.md
-          - Thoughts: categories/thoughts.md
+# nav:
+#   - Home:
+#       - Archive:
+#           - 2025: archive/2024.md
+#       - Categories:
+#           - Democratizing marketing: categories/applied-ai.md
+#           - Losing my Hands: categories/losing-my-hands.md
+#           - Personal: categories/personal.md
+#           - Personal Growth: categories/personal-growth.md
+#           - Leadership: categories/rag.md
+#           - Software Engineering: categories/software-engineering.md
+#           - Thoughts: categories/thoughts.md
 theme:
   name: material
   features:
