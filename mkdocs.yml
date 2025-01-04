@@ -18,8 +18,9 @@ nav:
 theme:
   name: material
   features:
-    - navigation.expand
     - navigation.tabs
+    - navigation.sections
   palette:
     scheme: slate
     primary: white
+copyright: Copyright &copy; 2025 Damon Henry
