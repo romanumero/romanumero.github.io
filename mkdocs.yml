@@ -6,7 +6,6 @@ nav:
           - 2025: archive/2024.md
       - Categories:
           - Democratizing marketing: categories/applied-ai.md
-          #- Consulting: categories/consulting.md
           - Losing my Hands: categories/losing-my-hands.md
           - Personal: categories/personal.md
           - Personal Growth: categories/personal-growth.md
@@ -16,7 +15,6 @@ nav:
 theme:
   name: material
   features:
-    - navigation.expand
     - navigation.tabs
   palette:
     scheme: slate
