@@ -18,7 +18,6 @@ theme:
   features:
     - navigation.expand
     - navigation.tabs
-    - navigation.sections
   palette:
     scheme: slate
     primary: white
