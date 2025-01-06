@@ -1,3 +1,2 @@
-# Header Here
+# Blog
 
-Content goes here

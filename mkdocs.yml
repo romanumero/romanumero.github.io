@@ -19,17 +19,20 @@ copyright: Copyright &copy; 2025 Damon Henry
 nav:
   - Home:
       - Introductions: "index.md"
-      - Investments: "investments.md"
       #- User Manual: "user_manual.md"
       - Books: "books.md"
       - Tools: "tools.md"
+      - Companies: "companies.md"
   - Thoughts and Rambles:
-      - writing/index.md
+      - thoughts/index.md
 plugins:
   - blog:
       include_in_nav: false
-      blog_dir: writing
+      blog_dir: thoughts
       blog_toc: true
   - search
 extra_css:
   - ./css/global.css
+markdown_extensions:
+  - toc:
+      permalink: true
