@@ -1,0 +1,13 @@
+p {
+    font-size: 1.1em;
+}
+
+.md-nav__item a.md-nav__link span.md-ellipsis {
+    font-size: 1.1em; /* Adjust font size */
+    text-decoration: none; /* Add underline */
+}
+
+.md-nav__item a.md-nav__link span.md-ellipsis:hover {
+    color: #0056b3; /* Change color on hover */
+    text-decoration: none; /* Remove underline on hover */
+}
