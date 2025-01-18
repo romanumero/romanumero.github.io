@@ -6,13 +6,15 @@ theme:
     - navigation.tabs
     - navigation.indexes
     - navigation.expand
+  icons:
+    search: material/magnify
   palette:
     scheme: default
     #primary: white
 extra:
   social:
     - icon: fontawesome/brands/x-twitter
-      link: https://twitter.com/romanumero
+      link: https://x.com/romanumero
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/damonhenry/
 copyright: Copyright &copy; 2025 Damon Henry
@@ -23,16 +25,22 @@ nav:
       - Books: "books.md"
       - Tools: "tools.md"
       - Companies: "companies.md"
-  - Thoughts and Rambles:
+  - Thoughts and Ramblings:
       - thoughts/index.md
 plugins:
   - blog:
       include_in_nav: false
       blog_dir: thoughts
       blog_toc: true
+      post_date_format: yyyy/MM/dd
+      post_url_format: "{date}/{slug}"
   - search
 extra_css:
   - ./css/global.css
 markdown_extensions:
+  - attr_list
   - toc:
       permalink: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
