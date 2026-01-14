@@ -12,4 +12,4 @@ Pocketnest is a financial wellness platform that provides personalized financial
 
 ## [.adrithmic](https://www.adrithmic.com)
 
-.adrithmic gives humans superpowers by leveraging Robotic Process Automation (RPA) and intelligent agents to streamline and automate advertising operations, enabling businesses to optimize campaign management, reduce manual effort, and drive more efficient marketing outcomes.
+.adrithmic is an AI-driven advertising workflows platform that automates and optimizes how advertising campaigns are managed, helping businesses streamline their ad operations through intelligent automation.
