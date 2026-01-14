@@ -1,0 +1,29 @@
+p * {
+    font-size: 1.1em;
+}
+
+.md-nav__item a.md-nav__link span.md-ellipsis {
+    font-size: 1.1em; /* Adjust font size */d
+    text-decoration: none; /* Add underline */
+}
+
+.md-nav__item a.md-nav__link span.md-ellipsis:hover {
+    color: #0056b3; /* Change color on hover */
+    text-decoration: none; /* Remove underline on hover */
+}
+
+.md-button {
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.md-button--primary {
+    background-color: #6200ee;
+    color: white;
+}
+
+.md-button--secondary {
+    background-color: #03dac6;
+    color: black;
+}
