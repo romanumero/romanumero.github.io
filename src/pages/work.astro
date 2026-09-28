@@ -1,9 +1,7 @@
 ---
+import ContactButton from '../components/ContactButton.astro';
 import Subscribe from '../components/Subscribe.astro';
-import { SITE } from '../consts';
 import Base from '../layouts/Base.astro';
-
-const mail = (subject: string) => `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(subject)}`;
 ---
 
 <Base title="Work with me" description="Workshops, speaking and advisory for agency owners and their teams.">
@@ -18,7 +16,7 @@ const mail = (subject: string) => `mailto:${SITE.contactEmail}?subject=${encodeU
 			<div class="section-head"><h2>Workshops &amp; speaking</h2></div>
 			<div class="ws">
 				<p>Half-day working sessions for agency teams, industry associations and conferences. Popular topics: building your first AI eval, planning your first geo test, and mapping your agency’s workflows for automation.</p>
-				<a class="btn" href={mail('Workshop / speaking inquiry')}>Ask about dates</a>
+				<ContactButton label="Ask about dates" subject="Workshop / speaking inquiry" />
 			</div>
 		</section>
 
@@ -26,7 +24,7 @@ const mail = (subject: string) => `mailto:${SITE.contactEmail}?subject=${encodeU
 			<div class="section-head"><h2>Advisory</h2></div>
 			<div class="ws">
 				<p>I take a small number of ongoing advisory engagements with agency owners working through AI, automation and measurement. For hands-on media and measurement work, my team at <a href="https://www.kortx.io">KORTX</a> does it with you.</p>
-				<a class="btn" href={mail('Advisory inquiry')}>Start a conversation</a>
+				<ContactButton label="Start a conversation" subject="Advisory inquiry" />
 			</div>
 		</section>
 

@@ -1,0 +1,64 @@
+---
+// A button that reveals the contact address on click, with Copy and Open-in-email options.
+// The address is never in the page source as plain text: it's stored reversed and
+// base64-encoded, and assembled in the browser, which keeps most scrapers from finding it.
+// Usage: <ContactButton label="Ask about dates" subject="Workshop inquiry" />
+import { SITE } from '../consts';
+
+interface Props {
+	label: string;
+	subject?: string;
+}
+const { label, subject = '' } = Astro.props;
+const encoded = Buffer.from([...SITE.contactEmail].reverse().join('')).toString('base64');
+---
+
+<div class="contact" data-e={encoded} data-s={subject}>
+	<button type="button" class="btn reveal" aria-expanded="false">{label}</button>
+	<div class="panel" hidden>
+		<span class="addr"></span>
+		<div class="acts">
+			<button type="button" class="btn line copy">Copy address</button>
+			<a class="btn line open">Open email app</a>
+		</div>
+		<small class="done" aria-live="polite"></small>
+	</div>
+	<noscript><p class="ns">Email me at me [at] damonhenry [dot] com</p></noscript>
+</div>
+
+<script>
+	for (const el of document.querySelectorAll<HTMLElement>('.contact')) {
+		const reveal = el.querySelector<HTMLButtonElement>('.reveal')!;
+		const panel = el.querySelector<HTMLElement>('.panel')!;
+		const done = el.querySelector<HTMLElement>('.done')!;
+		const address = () => [...atob(el.dataset.e!)].reverse().join('');
+
+		reveal.addEventListener('click', () => {
+			const a = address();
+			el.querySelector('.addr')!.textContent = a;
+			const s = el.dataset.s;
+			el.querySelector<HTMLAnchorElement>('.open')!.href = `mailto:${a}${s ? `?subject=${encodeURIComponent(s)}` : ''}`;
+			panel.hidden = false;
+			reveal.hidden = true;
+			reveal.setAttribute('aria-expanded', 'true');
+		});
+
+		el.querySelector('.copy')!.addEventListener('click', async () => {
+			try {
+				await navigator.clipboard.writeText(address());
+				done.textContent = 'Copied.';
+			} catch {
+				done.textContent = 'Select the address above to copy it.';
+			}
+		});
+	}
+</script>
+
+<style>
+	.panel { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+	.addr { font: 600 18px var(--sans); user-select: all; }
+	.acts { display: flex; gap: 10px; flex-wrap: wrap; }
+	.done { font: 13px var(--sans); color: var(--s3); min-height: 1em; }
+	.ns { font: 15px var(--sans); color: var(--s4); margin: 8px 0 0; }
+	.contact [hidden] { display: none !important; }
+</style>
