@@ -3,58 +3,41 @@ import Subscribe from '../components/Subscribe.astro';
 import { SITE } from '../consts';
 import Base from '../layouts/Base.astro';
 
-// Placeholder offers. Edit copy, prices and status here.
-const toolkits = [
-	{ name: 'Geo-Test Planner', blurb: 'Pick matched markets, size the test, and read the result. Spreadsheet plus a 20-minute walkthrough.', status: 'In progress' },
-	{ name: 'AI Eval Kit for Agencies', blurb: 'Twenty test cases, a scoring sheet and a review routine for any AI workflow. No code required.', status: 'In progress' },
-	{ name: 'MMM Readiness Check', blurb: 'Is your client’s data ready for a marketing mix model? A scored checklist with next steps.', status: 'Planned' },
-];
+const mail = (subject: string) => `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(subject)}`;
 ---
 
-<Base title="Work with me" description="Cohorts, toolkits and workshops for agency owners and their teams.">
+<Base title="Work with me" description="Workshops, speaking and advisory for agency owners and their teams.">
 	<div class="wrap">
 		<header class="head">
-			<div class="eyebrow">Go deeper</div>
-			<h1>Learn it with your peers, then <span class="hl">take the tools home.</span></h1>
-			<p>The essays are free and always will be. These are for agency leaders who want to put the ideas into practice.</p>
+			<div class="eyebrow">Work with me</div>
+			<h1>Bring these ideas <span class="hl">into your agency.</span></h1>
+			<p>The essays are free and always will be. If you want help putting them into practice with your team, here’s how I work.</p>
 		</header>
 
-		<section class="section cohort" id="cohort">
-			<div>
-				<div class="eyebrow">Cohort · waitlist open</div>
-				<h2>The AI-Ready Agency</h2>
-				<p>Four weeks, a small group of agency owners and leaders. Each person rebuilds one real workflow in their agency: where AI fits, how to test that it’s right, and how to prove it moved a number the client cares about.</p>
-				<ul>
-					<li>4 live sessions + weekly office hours</li>
-					<li>Capped at 20 people so everyone gets real feedback</li>
-					<li>Every toolkit included</li>
-				</ul>
-			</div>
-			<Subscribe heading="Join the waitlist" blurb="Waitlist members hear about the first cohort before anyone else, and get founding pricing." form="cohort" cta="Join waitlist" />
-		</section>
-
-		<section class="section" id="toolkits">
-			<div class="section-head"><h2>Toolkits</h2><span>The spreadsheets behind the essays</span></div>
-			<div class="kits">
-				{
-					toolkits.map((k) => (
-						<div class="kit">
-							<small>{k.status}</small>
-							<h3>{k.name}</h3>
-							<p>{k.blurb}</p>
-						</div>
-					))
-				}
-			</div>
-			<div class="kit-sub"><Subscribe heading="Get notified when toolkits launch" blurb="One email when each toolkit is ready. Subscribers get launch pricing." form="toolkits" cta="Notify me" /></div>
-		</section>
-
-		<section class="section" id="workshops" style="border-bottom:0">
+		<section class="section" id="workshops">
 			<div class="section-head"><h2>Workshops &amp; speaking</h2></div>
 			<div class="ws">
 				<p>Half-day working sessions for agency teams, industry associations and conferences. Popular topics: building your first AI eval, planning your first geo test, and mapping your agency’s workflows for automation.</p>
-				<a class="btn" href={`mailto:${SITE.contactEmail}?subject=${encodeURIComponent('Workshop / speaking inquiry')}`}>Ask about dates</a>
+				<a class="btn" href={mail('Workshop / speaking inquiry')}>Ask about dates</a>
 			</div>
+		</section>
+
+		<section class="section" id="advisory">
+			<div class="section-head"><h2>Advisory</h2></div>
+			<div class="ws">
+				<p>I take a small number of ongoing advisory engagements with agency owners working through AI, automation and measurement. For hands-on media and measurement work, my team at <a href="https://www.kortx.io">KORTX</a> does it with you.</p>
+				<a class="btn" href={mail('Advisory inquiry')}>Start a conversation</a>
+			</div>
+		</section>
+
+		<section class="section cohort" id="cohort" style="border-bottom:0">
+			<div>
+				<div class="eyebrow">Considering · not scheduled</div>
+				<h2>The AI-Ready Agency</h2>
+				<p>I’m considering a small cohort: four weeks with a group of agency owners, each rebuilding one real workflow in their agency. Where AI fits, how to test that it’s right, and how to prove it moved a number the client cares about.</p>
+				<p>It runs only if enough people want it. If you would, tell me below.</p>
+			</div>
+			<Subscribe heading="I’d join this" blurb="You’ll hear if and when it runs, before anyone else. No other emails from this list." form="cohort" cta="I’m interested" />
 		</section>
 	</div>
 </Base>
@@ -66,14 +49,7 @@ const toolkits = [
 	.cohort { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: start; }
 	.cohort h2 { font: 500 36px/1.1 var(--serif); margin: 10px 0 14px; }
 	.cohort p { font: 18px/1.6 var(--serif); color: var(--s4); }
-	.cohort ul { font: 16px/1.8 var(--sans); padding-left: 20px; }
-	.kits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-	.kit { border: 1px solid var(--s2); border-radius: 14px; padding: 22px; }
-	.kit small { font: 500 11px var(--mono); color: var(--s3); text-transform: uppercase; }
-	.kit h3 { font: 500 22px/1.2 var(--serif); margin: 8px 0; }
-	.kit p { font: 14.5px/1.5 var(--sans); color: var(--s4); margin: 0; }
-	.kit-sub { max-width: 520px; margin-top: 24px; }
 	.ws { display: flex; gap: 32px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 	.ws p { font: 18px/1.6 var(--serif); color: var(--s4); max-width: 640px; margin: 0; }
-	@media (max-width: 860px) { .cohort, .kits { grid-template-columns: 1fr; } }
+	@media (max-width: 860px) { .cohort { grid-template-columns: 1fr; } }
 </style>

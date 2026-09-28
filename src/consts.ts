@@ -12,7 +12,7 @@ export const SITE = {
 		cohort: '9973069', // EMA – Cohort waitlist
 		toolkits: '9973074', // EMA – Toolkits waitlist
 	},
-	contactEmail: 'hello@example.com', // TODO: real address for workshop/speaking inquiries
+	contactEmail: 'me@damonhenry.com', // routed to damon@kortx.io by Google Workspace
 	social: {
 		youtube: '', // TODO
 		linkedin: 'https://www.linkedin.com/in/damonhenry/',

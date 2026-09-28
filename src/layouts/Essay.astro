@@ -45,7 +45,6 @@ const editUrl =
 
 		<div class="end">
 			<Subscribe heading="Get the next chapter first" blurb="Every essay here is a draft chapter of Engineering the Modern Agency. One email a month." />
-			<p class="work">Want to go deeper with your team? <a href="/work/">See cohorts, toolkits and workshops →</a></p>
 			{import.meta.env.DEV && editUrl && <p class="edit"><a href={editUrl}>Edit this post on GitHub</a></p>}
 		</div>
 	</article>
@@ -82,7 +81,7 @@ const editUrl =
 	.prose :global(summary) { cursor: pointer; padding: 16px 0; font: 600 15px var(--sans); }
 
 	.end { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--s2); }
-	.work, .edit { font: 15px var(--sans); color: var(--s4); margin: 20px 0 0; }
+	.edit { font: 15px var(--sans); color: var(--s4); margin: 20px 0 0; }
 	.edit { font-size: 13px; }
 	@media (max-width: 860px) { .prose :global(p), .prose :global(li) { font-size: 18px; } }
 </style>
