@@ -86,3 +86,16 @@
   .lab .rg, .lab .ticks { grid-template-columns: 1fr; gap: 4px; }
   .lab .ticks > span, .lab .ticks > i { display: none; }
 }
+/* ---------- confidence router ---------- */
+.lab.router svg g:focus-visible circle { stroke-width: 3.5; }
+.lab.router .legend { margin: 6px 0 4px; }
+.lab.router .legend .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--fg); border: 2px solid var(--fg); box-sizing: border-box; }
+.lab.router .legend .dot.wrong { background: var(--bg); }
+.lab.router .split output { font: 600 13px var(--mono); color: var(--fg); }
+.lab.router .lanes { margin-top: 18px; }
+.lab.router .lanes .big { font-size: 32px; }
+.lab.router .pick { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border: 1px solid var(--s2); border-radius: 10px; }
+.lab.router .pick em { color: var(--s4); }
+.lab.router .wrong-note { display: block; margin-top: 4px; font-weight: 600; }
+.lab.router .cell.auto { background: var(--mark); border-color: transparent; }
+.lab.router svg text.zone { font: 600 11px var(--display); fill: var(--s4); letter-spacing: .04em; }

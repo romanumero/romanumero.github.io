@@ -2,6 +2,7 @@
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import { fileURLToPath } from 'node:url';
 import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
@@ -9,6 +10,8 @@ export default defineConfig({
 	site: 'https://damonhenry.com',
 	trailingSlash: 'always',
 	integrations: [mdx(), react(), sitemap()],
+	// Lets drafts in the private repo import components with the same path they'll use once published.
+	vite: { resolve: { alias: { '@components': fileURLToPath(new URL('./src/components', import.meta.url)) } } },
 	fonts: [
 		{ provider: fontProviders.google(), name: 'Newsreader', cssVariable: '--font-serif', weights: [400, 500], styles: ['normal', 'italic'], fallbacks: ['Georgia', 'serif'] },
 		{ provider: fontProviders.google(), name: 'Space Grotesk', cssVariable: '--font-display', weights: [500, 600, 700], fallbacks: ['system-ui', 'sans-serif'] },
