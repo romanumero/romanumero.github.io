@@ -4,7 +4,7 @@ description: "Why Claude Cowork matters more for advertising than you think."
 date: 2026-01-14
 track: ai
 format: essay
-part: 3
+part: 2
 ---
 
 I've been running KORTX for more than a decade. In that time, we've managed north of $300 million in media spend and watched the advertising technology landscape transform from "complicated" to "absurdly complicated" to whatever we're calling it now.
