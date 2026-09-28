@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import './explainers.css';
 
 export type Decision = {
@@ -25,44 +25,66 @@ type Props = {
 	review?: number;
 	heading?: string;
 	caption?: string;
+	/** How the work gets done today, for comparison. */
+	today?: ReactNode;
+	/** What one wrong automatic answer costs in this example. */
+	mistake?: ReactNode;
 };
 
-// Illustrative: search-term triage for a fictional running-shoe brand, "Northfield".
-// Mostly right when very sure, less often right when unsure — the pattern a well-calibrated model should show.
+const d = (label: string, answer: string, confidence: number, note?: string): Decision =>
+	({ label, answer, confidence, correct: !note, note });
+
+// Illustrative: search-term triage for a fictional running-shoe brand, "Northfield" (competitor: "Stridewell").
+// Shaped like a well-calibrated model: nearly always right when very sure, mistakes clustered where it's unsure.
 const DEFAULT: Decision[] = [
-	{ label: 'northfield running shoes', answer: 'Branded', confidence: 0.995, correct: true },
-	{ label: 'northfield trail runner review', answer: 'Branded', confidence: 0.99, correct: true },
-	{ label: 'northfield store near me', answer: 'Branded', confidence: 0.985, correct: true },
-	{ label: 'best running shoes 2026', answer: 'Generic', confidence: 0.98, correct: true },
-	{ label: 'running shoes for flat feet', answer: 'Generic', confidence: 0.975, correct: true },
-	{ label: 'free shoe coupon printable', answer: 'Irrelevant', confidence: 0.97, correct: true },
-	{ label: 'marathon training plan pdf', answer: 'Irrelevant', confidence: 0.965, correct: true },
-	{ label: 'stridewell vs northfield', answer: 'Competitor', confidence: 0.96, correct: true },
-	{ label: 'northface running jacket', answer: 'Branded', confidence: 0.955, correct: false, note: 'A different brand with a similar name. Confident and wrong: the costliest kind of mistake.' },
-	{ label: 'stridewell sale', answer: 'Competitor', confidence: 0.952, correct: true },
-	{ label: 'north field shoes', answer: 'Branded', confidence: 0.95, correct: true },
-	{ label: 'trail shoes waterproof', answer: 'Generic', confidence: 0.93, correct: true },
-	{ label: 'northfield returns policy', answer: 'Branded', confidence: 0.92, correct: true },
-	{ label: 'shoe stretcher', answer: 'Irrelevant', confidence: 0.9, correct: true },
-	{ label: 'cheap running shoes', answer: 'Generic', confidence: 0.88, correct: true },
-	{ label: 'nf ultra 3', answer: 'Branded', confidence: 0.86, correct: true },
-	{ label: 'stride running club', answer: 'Competitor', confidence: 0.84, correct: false, note: 'A local running club, not the competitor brand. Should be irrelevant.' },
-	{ label: 'northfield jobs', answer: 'Branded', confidence: 0.82, correct: false, note: 'Has the brand name, but it’s a job seeker, not a customer. Should be irrelevant.' },
-	{ label: 'running shoe best cushioning', answer: 'Generic', confidence: 0.8, correct: true },
-	{ label: 'ultra 3 vs pegasus', answer: 'Competitor', confidence: 0.76, correct: true },
-	{ label: 'field running shoes kids', answer: 'Branded', confidence: 0.72, correct: false, note: '“Field” isn’t the brand. Should be generic.' },
-	{ label: 'northfield ma running store', answer: 'Branded', confidence: 0.68, correct: false, note: 'A store in Northfield, Massachusetts. Should be irrelevant.' },
-	{ label: 'zero drop shoes', answer: 'Generic', confidence: 0.64, correct: true },
-	{ label: 'run shoes', answer: 'Generic', confidence: 0.6, correct: true },
-	{ label: 'north running', answer: 'Branded', confidence: 0.56, correct: false, note: 'Too vague to call. Should be generic.' },
-	{ label: 'stridewell outlet northfield', answer: 'Competitor', confidence: 0.52, correct: true },
+	d('northfield running shoes', 'Branded', 0.99), d('northfield shoes', 'Branded', 0.99),
+	d('northfield trail runner', 'Branded', 0.99), d('northfield ultra 3', 'Branded', 0.99),
+	d('northfield store', 'Branded', 0.99), d('northfield.com', 'Branded', 0.99),
+	d('buy northfield shoes', 'Branded', 0.99), d('northfield sale', 'Branded', 0.99),
+	d('best running shoes 2026', 'Generic', 0.98), d('running shoes for flat feet', 'Generic', 0.98),
+	d('womens running shoes', 'Generic', 0.98), d('trail running shoes', 'Generic', 0.98),
+	d('stridewell shoes', 'Competitor', 0.98), d('stridewell sale', 'Competitor', 0.98),
+	d('shoe laces replacement', 'Irrelevant', 0.98), d('how to tie running shoes', 'Irrelevant', 0.98),
+	d('marathon training plan pdf', 'Irrelevant', 0.97), d('free shoe coupon printable', 'Irrelevant', 0.97),
+	d('stridewell vs northfield', 'Competitor', 0.97), d('northfield promo code', 'Branded', 0.97),
+	d('northfield reviews', 'Branded', 0.97), d('wide running shoes', 'Generic', 0.97),
+	d('running shoes men', 'Generic', 0.97),
+	d('stridewell outlet', 'Competitor', 0.96), d('northfield near me', 'Branded', 0.96),
+	d('cushioned running shoes', 'Generic', 0.96), d('shoe size chart', 'Irrelevant', 0.96),
+	d('running socks', 'Irrelevant', 0.96), d('northfield return policy', 'Branded', 0.96),
+	d('stridewell glide 5', 'Competitor', 0.96),
+	d('north field shoes', 'Branded', 0.95), d('northfield ultra 3 review', 'Branded', 0.95),
+	d('stability running shoes', 'Generic', 0.95), d('running shoes on sale', 'Generic', 0.95),
+	d('northface running jacket', 'Branded', 0.955, 'A different brand with a similar name. Confident and wrong: the mistake that goes live if no one checks.'),
+	d('stridewell warranty', 'Competitor', 0.95),
+	d('trail shoes waterproof', 'Generic', 0.93), d('cheap running shoes', 'Generic', 0.92),
+	d('nf ultra 3', 'Branded', 0.91), d('shoe stretcher', 'Irrelevant', 0.9),
+	d('running shoes plantar fasciitis', 'Generic', 0.89), d('stridewell kids', 'Competitor', 0.88),
+	d('lightweight trainers', 'Generic', 0.87), d('northfield gift card', 'Branded', 0.86),
+	d('stride running club', 'Competitor', 0.84, 'A local running club, not the competitor brand. Should be irrelevant.'),
+	d('running store', 'Generic', 0.83),
+	d('northfield jobs', 'Branded', 0.82, 'Has the brand name, but it’s a job seeker, not a customer. Should be irrelevant.'),
+	d('running shoe best cushioning', 'Generic', 0.8), d('ultra 3 vs stridewell glide', 'Competitor', 0.78),
+	d('zero drop shoes', 'Generic', 0.76),
+	d('field running shoes kids', 'Branded', 0.74, '“Field” isn’t the brand. Should be generic.'),
+	d('north trail shoes', 'Generic', 0.72),
+	d('northfield ma running store', 'Branded', 0.68, 'A store in Northfield, Massachusetts. Should be irrelevant.'),
+	d('run shoes', 'Generic', 0.66), d('stride shoes', 'Competitor', 0.63), d('nf shoes', 'Branded', 0.61),
+	d('field shoes', 'Generic', 0.58),
+	d('north running', 'Branded', 0.56, 'Too vague to call. Should be generic.'),
+	d('stridewell outlet northfield', 'Competitor', 0.54), d('ultra shoes', 'Generic', 0.52),
 ];
 
 const MIN = 0.5;
 const pct = (n: number) => `${Math.round(n * 100)}%`;
-const fmt = (n: number) => Math.round(n).toLocaleString('en-US');
+/** Round to a believable precision: the sample can't support more. */
+const about = (n: number) => {
+	const step = n >= 10_000 ? 1_000 : n >= 1_000 ? 100 : 10;
+	return (Math.round(n / step) * step).toLocaleString('en-US');
+};
+const bin = (c: number) => Math.min(99, Math.floor(c * 100 + 1e-9));
 
-/** Drag two confidence thresholds and see which decisions a system makes alone, which a person approves, and which a person decides. */
+/** Drag two confidence thresholds and see which decisions run automatically, which a person approves, and which a person decides. */
 export default function ConfidenceRouter({
 	decisions = DEFAULT,
 	unit = 'search terms',
@@ -71,6 +93,8 @@ export default function ConfidenceRouter({
 	review: review0 = 0.7,
 	heading = 'Where would you draw the lines?',
 	caption = 'Illustrative · search-term triage for a fictional brand',
+	today = <>Checking every term by hand would be 100,000 reviews a month, so most teams check the top spenders and never see the rest.</>,
+	mistake = <>A mislabeled search term is cheap and easy to undo: a few wasted clicks until someone adds a negative keyword. For something like budget changes, you’d set the line much higher.</>,
 }: Props) {
 	const [act, setAct] = useState(act0);
 	const [review, setReview] = useState(review0);
@@ -79,31 +103,28 @@ export default function ConfidenceRouter({
 	const lane = (c: number) => (c >= act ? 'acts' : c >= review ? 'approves' : 'decides');
 	const counts = useMemo(() => {
 		const r = { acts: 0, approves: 0, decides: 0, slipped: 0, caught: 0 };
-		for (const d of decisions) {
-			const l = lane(d.confidence);
+		for (const x of decisions) {
+			const l = lane(x.confidence);
 			r[l]++;
-			if (!d.correct) l === 'acts' ? r.slipped++ : r.caught++;
+			if (!x.correct) l === 'acts' ? r.slipped++ : r.caught++;
 		}
 		return r;
 	}, [decisions, act, review]);
 
-	// Strip plot: x = confidence, dots stacked upward where they'd overlap.
-	const W = 560, H = 170, L = 12, R = 12, base = 118, gap = 15;
-	const X = (c: number) => L + ((c - MIN) / (1 - MIN)) * (W - L - R);
-	const placed = useMemo(() => {
-		const rows: number[][] = [];
-		return decisions.map((d) => {
-			const x = X(d.confidence);
-			let row = 0;
-			while (rows[row]?.some((px) => Math.abs(px - x) < 13)) row++;
-			(rows[row] ??= []).push(x);
-			return { x, y: base - row * gap };
-		});
+	// Dot histogram: one column per percentage point of confidence, dots stacked upward.
+	const stacks = useMemo(() => {
+		const h: Record<number, number> = {};
+		return decisions.map((x) => { const b = bin(x.confidence); h[b] = (h[b] ?? 0) + 1; return { b, row: h[b] - 1 }; });
 	}, [decisions]);
+	const tallest = Math.max(1, ...stacks.map((s) => s.row + 1));
+	const W = 560, L = 12, R = 12, gap = 10.5, top = 34;
+	const base = top + tallest * gap;
+	const H = base + 42;
+	const X = (c: number) => L + ((c - MIN) / (1 - MIN)) * (W - L - R);
 
 	const n = decisions.length;
 	const scale = volume / n;
-	const d = sel === null ? null : decisions[sel];
+	const picked = sel === null ? null : decisions[sel];
 
 	const setActSafe = (v: number) => { setAct(v); if (review > v - 0.01) setReview(Math.max(MIN, +(v - 0.01).toFixed(2))); };
 	const setReviewSafe = (v: number) => setReview(Math.min(v, +(act - 0.01).toFixed(2)));
@@ -113,8 +134,8 @@ export default function ConfidenceRouter({
 			<div className="lab-h"><b>Try it</b><span>{caption}</span></div>
 			<h4>{heading}</h4>
 			<svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${n} decisions plotted by the model's confidence, split into three zones by your thresholds`}>
-				<rect x={X(act)} y={8} width={X(1) - X(act)} height={base - 2} fill="var(--mark)" opacity={0.8} />
-				<rect x={X(review)} y={8} width={X(act) - X(review)} height={base - 2} fill="var(--s1)" />
+				<rect x={X(act)} y={8} width={X(1) - X(act)} height={base - 4} fill="var(--mark)" opacity={0.8} />
+				<rect x={X(review)} y={8} width={X(act) - X(review)} height={base - 4} fill="var(--s1)" />
 				{[
 					{ label: 'Person decides', from: MIN, to: review },
 					{ label: 'Person approves', from: review, to: act },
@@ -122,25 +143,25 @@ export default function ConfidenceRouter({
 				].map((z) => X(z.to) - X(z.from) > z.label.length * 6.2 && (
 					<text key={z.label} x={(X(z.from) + X(z.to)) / 2} y={24} textAnchor="middle" className="zone">{z.label}</text>
 				))}
-				<line x1={L} x2={W - R} y1={base + 12} y2={base + 12} stroke="var(--s2)" strokeWidth={1.5} />
+				<line x1={L} x2={W - R} y1={base + 4} y2={base + 4} stroke="var(--s2)" strokeWidth={1.5} />
 				{[0.5, 0.6, 0.7, 0.8, 0.9, 1].map((t) => (
-					<text key={t} x={X(t)} y={H - 16} textAnchor={t === 0.5 ? 'start' : t === 1 ? 'end' : 'middle'}>{pct(t)}</text>
+					<text key={t} x={X(t)} y={H - 18} textAnchor={t === 0.5 ? 'start' : t === 1 ? 'end' : 'middle'}>{pct(t)}</text>
 				))}
-				<text x={X(0.75)} y={H - 2} textAnchor="middle">Model’s confidence →</text>
+				<text x={X(0.75)} y={H - 3} textAnchor="middle">Model’s confidence →</text>
 				{[act, review].map((t, i) => (
-					<line key={i} x1={X(t)} x2={X(t)} y1={4} y2={base + 12} stroke="var(--fg)" strokeWidth={2} />
+					<line key={i} x1={X(t)} x2={X(t)} y1={4} y2={base + 4} stroke="var(--fg)" strokeWidth={2} />
 				))}
-				{decisions.map((dd, i) => {
-					const { x, y } = placed[i];
+				{decisions.map((x, i) => {
+					const cx = X((stacks[i].b + 0.5) / 100), cy = base - 4 - stacks[i].row * gap;
 					const on = sel === i;
 					const pick = () => setSel(on ? null : i);
 					return (
-						<g key={dd.label} role="button" tabIndex={0} aria-pressed={on}
-							aria-label={`${dd.label}: ${dd.answer}, ${pct(dd.confidence)} sure, ${dd.correct ? 'right' : 'wrong'}`}
+						<g key={x.label} role="button" tabIndex={0} aria-pressed={on}
+							aria-label={`${x.label}: ${x.answer}, ${pct(x.confidence)} sure, ${x.correct ? 'right' : 'wrong'}`}
 							onClick={pick} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), pick())}
 							style={{ cursor: 'pointer', outline: 'none' }}>
-							<circle cx={x} cy={y} r={on ? 7.5 : 6} fill={dd.correct ? 'var(--fg)' : 'var(--bg)'} stroke="var(--fg)" strokeWidth={on ? 3 : 2} />
-							{!dd.correct && <path d={`M${x - 3},${y - 3}L${x + 3},${y + 3}M${x + 3},${y - 3}L${x - 3},${y + 3}`} stroke="var(--fg)" strokeWidth={1.8} />}
+							<circle cx={cx} cy={cy} r={on ? 6 : 4.4} fill={x.correct ? 'var(--fg)' : 'var(--bg)'} stroke="var(--fg)" strokeWidth={on ? 2.5 : 1.6} />
+							{!x.correct && <path d={`M${cx - 2.2},${cy - 2.2}L${cx + 2.2},${cy + 2.2}M${cx + 2.2},${cy - 2.2}L${cx - 2.2},${cy + 2.2}`} stroke="var(--fg)" strokeWidth={1.4} />}
 						</g>
 					);
 				})}
@@ -159,23 +180,32 @@ export default function ConfidenceRouter({
 			</div>
 
 			<div className="calc lanes">
-				<div className="cell auto"><small>Automatic, logged</small><span className="big">{counts.acts}</span><small>of {n} · no one touches these</small></div>
-				<div className="cell"><small>Prepared, person approves</small><span className="big">{counts.approves}</span><small>quick yes or no</small></div>
-				<div className="cell"><small>Person decides</small><span className="big">{counts.decides}</span><small>full human judgment</small></div>
+				<div className="cell auto"><small>Automatic, logged</small><span className="big">{pct(counts.acts / n)}</span><small>{counts.acts} of {n} · no one touches these</small></div>
+				<div className="cell"><small>Prepared, person approves</small><span className="big">{pct(counts.approves / n)}</span><small>{counts.approves} of {n} · quick yes or no</small></div>
+				<div className="cell"><small>Person decides</small><span className="big">{pct(counts.decides / n)}</span><small>{counts.decides} of {n} · full human judgment</small></div>
 			</div>
 
-			{d && (
+			{picked && (
 				<div className="pick">
-					<b>“{d.label}”</b> → {d.answer}, {pct(d.confidence)} sure. <em>{lane(d.confidence) === 'acts' ? 'Goes live automatically.' : lane(d.confidence) === 'approves' ? 'A person approves it.' : 'A person decides.'}</em>
-					{!d.correct && d.note && <> <span className="wrong-note">Wrong: {d.note}</span></>}
+					<b>“{picked.label}”</b> → {picked.answer}, {pct(picked.confidence)} sure. <em>{lane(picked.confidence) === 'acts' ? 'Goes live automatically.' : lane(picked.confidence) === 'approves' ? 'A person approves it.' : 'A person decides.'}</em>
+					{!picked.correct && picked.note && <> <span className="wrong-note">Wrong: {picked.note}</span></>}
 				</div>
 			)}
 
 			<div className="verdict" aria-live="polite">
-				{counts.slipped === 0
-					? <>No wrong answers go live unreviewed, and people handle <b>{counts.approves + counts.decides} of {n}</b>. </>
-					: <><b>{counts.slipped} wrong {counts.slipped === 1 ? 'answer goes' : 'answers go'} live</b> with no one looking. People catch the other {counts.caught}. </>}
-				At {fmt(volume)} {unit} a month, that’s about <b>{fmt((counts.approves + counts.decides) * scale)} for your team to review</b> and <b>{fmt(counts.slipped * scale)} mistakes nobody reviews</b>. No setting makes both zero. You choose which cost you can live with.
+				<p>
+					{counts.acts === 0
+						? <>Nothing runs automatically. People handle every {unit.replace(/s$/, '')}.</>
+						: counts.slipped === 0
+							? <>None of the {counts.acts} automatic answers in this sample are wrong.</>
+							: <><b>About 1 in {Math.round(counts.acts / counts.slipped)} automatic answers is wrong</b> and goes live with no one looking.</>}
+					{counts.caught > 0 && <> People catch the other {counts.caught} mistakes before they go live.</>}
+				</p>
+				<p>
+					At {volume.toLocaleString('en-US')} {unit} a month: about <b>{about(counts.approves * scale)} quick approvals</b>, <b>{about(counts.decides * scale)} full decisions</b>, and <b>{about(counts.slipped * scale)} mistakes nobody reviews</b>.
+				</p>
+				{today && <p className="aside"><b>Compared with today:</b> {today}</p>}
+				{mistake && <p className="aside"><b>What a mistake costs here:</b> {mistake}</p>}
 			</div>
 		</div>
 	);

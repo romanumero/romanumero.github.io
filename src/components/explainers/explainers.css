@@ -99,3 +99,6 @@
 .lab.router .wrong-note { display: block; margin-top: 4px; font-weight: 600; }
 .lab.router .cell.auto { background: var(--mark); border-color: transparent; }
 .lab.router svg text.zone { font: 600 11px var(--display); fill: var(--s4); letter-spacing: .04em; }
+.lab.router .verdict p { margin: 0 0 8px !important; font: inherit !important; }
+.lab.router .verdict p:last-child { margin-bottom: 0 !important; }
+.lab.router .verdict .aside { font-size: 13.5px !important; color: var(--s4); }
