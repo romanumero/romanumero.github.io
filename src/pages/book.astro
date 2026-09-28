@@ -1,0 +1,53 @@
+---
+import BookParts from '../components/BookParts.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Subscribe from '../components/Subscribe.astro';
+import { PARTS } from '../data/book';
+import { getEssays } from '../data/essays';
+import Base from '../layouts/Base.astro';
+
+const essays = await getEssays();
+---
+
+<Base title="The Book" description="Engineering the Modern Agency: the book, written in public one essay at a time.">
+	<div class="wrap">
+		<header class="head">
+			<div class="eyebrow">Written in public</div>
+			<h1>Engineering the <span class="hl">Modern Agency</span></h1>
+			<p>A practical roadmap for agency owners through AI, automation, real measurement and the leadership it takes. Every essay on this site is a draft chapter. Progress below updates as chapters publish.</p>
+		</header>
+		<section class="section"><BookParts essays={essays} /></section>
+		{
+			PARTS.map((p) => {
+				const chapters = essays.filter((e) => e.data.part === p.n);
+				return (
+					<section class="section part">
+						<div class="eyebrow">Part {p.roman}</div>
+						<h2>{p.title}</h2>
+						<p class="blurb">{p.blurb}</p>
+						{chapters.length ? (
+							<ol>
+								{chapters.map((c) => (
+									<li><a href={`/essays/${c.id}/`}>{c.data.title}</a> <FormattedDate date={c.data.date} /></li>
+								))}
+							</ol>
+						) : (
+							<p class="soon">No chapters drafted yet.</p>
+						)}
+					</section>
+				);
+			})
+		}
+		<section class="section" style="border-bottom:0"><Subscribe heading="Read chapters first" blurb="Subscribers get each chapter draft by email and help shape the final book." /></section>
+	</div>
+</Base>
+
+<style>
+	.head { padding: 64px 0 8px; max-width: 720px; }
+	h1 { font: 500 clamp(40px, 5.4vw, 62px)/1.03 var(--serif); letter-spacing: -0.02em; margin: 12px 0 18px; }
+	.head p { font: 19px/1.55 var(--serif); color: var(--s4); }
+	.part h2 { font: 500 30px var(--serif); margin: 8px 0 4px; }
+	.blurb, .soon { font: 15px var(--sans); color: var(--s3); margin: 0 0 12px; }
+	ol { font: 19px/1.6 var(--serif); padding-left: 22px; }
+	ol :global(time) { font: 12px var(--mono); color: var(--s3); margin-left: 8px; }
+</style>

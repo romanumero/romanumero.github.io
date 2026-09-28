@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#13203d; --navy-2:#1c2a4c; --navy-3:#26375f;
+  --blue:#2d5ea6; --blue-l:#6e9be0; --blue-xl:#c9d4e6;
+  --orange:#ef8f3e; --orange-d:#b35a1b;
+  --paper:#f5f3ef; --paper-2:#ebe6dd; --card:#fbfaf7;
+  --ink:#13203d; --muted:#5b6477; --line:#dcd6cb;
+  --chrome-bg:#e9e6e0; --chrome-ink:#13203d;
+  --display:"Space Grotesk",system-ui,sans-serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --serif:"Newsreader",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --chrome-bg:#0c1426; --chrome-ink:#e8ebf2; }
+}
+:root[data-theme="dark"]{ --chrome-bg:#0c1426; --chrome-ink:#e8ebf2; }
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--chrome-bg);color:var(--chrome-ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+button,input{font:inherit}
+a{color:inherit}
+
+/* ---------- comparison chrome ---------- */
+.chrome{max-width:1240px;margin:0 auto;padding:28px 16px 8px}
+.chrome h1{font-family:var(--display);font-weight:700;font-size:clamp(22px,3vw,30px);margin:0 0 6px;letter-spacing:-.01em}
+.chrome p.lede{margin:0 0 18px;opacity:.75;max-width:760px;line-height:1.5}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:1.5px solid currentColor;background:transparent;color:inherit;padding:9px 16px;border-radius:999px;cursor:pointer;font-weight:600;opacity:.65}
+.tab[aria-selected="true"]{background:var(--orange);border-color:var(--orange);color:#13203d;opacity:1}
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 20px}
+.note{border-radius:12px;padding:14px 16px;background:color-mix(in srgb,var(--chrome-ink) 6%,transparent);font-size:14px;line-height:1.5}
+.note b{display:block;font-family:var(--display);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:4px}
+.note ul{margin:0;padding-left:18px}
+@media (max-width:820px){.notes{grid-template-columns:1fr}}
+
+.frame{max-width:1240px;margin:0 auto 18px;padding:0 16px}
+.window{border-radius:14px;overflow:hidden;box-shadow:0 20px 60px -20px rgba(0,0,0,.35),0 0 0 1px rgba(0,0,0,.08)}
+.bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#d9d4ca}
+.bar i{width:11px;height:11px;border-radius:50%;background:#bfb8ab;display:block}
+.bar span{margin-left:10px;font:12px var(--mono);color:#5b6477;background:#ece8e1;padding:4px 12px;border-radius:6px;flex:1;max-width:420px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.label{max-width:1240px;margin:26px auto 10px;padding:0 16px;font:600 12px var(--display);letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+.dir[hidden]{display:none}
+
+/* =========================================================
+   DIRECTION A — THE FIELD MANUAL (editorial)
+   ========================================================= */
+.A{background:var(--paper);color:var(--ink);font-family:var(--serif)}
+.A .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+.A nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:1px solid var(--line);gap:16px}
+.A .mark{font:700 17px var(--display);letter-spacing:-.01em;text-decoration:none}
+.A .mark em{font-style:normal;color:var(--orange-d)}
+.A nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font:500 14px var(--sans);color:var(--muted)}
+.A .btn{font:600 14px var(--sans);background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 16px;cursor:pointer;white-space:nowrap}
+.A .hero{display:grid;grid-template-columns:1.35fr 1fr;gap:56px;padding:72px 0 56px;border-bottom:1px solid var(--line);align-items:end}
+.A .eyebrow{font:600 12px var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--orange-d)}
+.A h2.big{font:500 clamp(40px,5.4vw,66px)/1.02 var(--serif);letter-spacing:-.02em;margin:16px 0 20px}
+.A h2.big i{color:var(--orange-d)}
+.A .dek{font:400 20px/1.5 var(--serif);color:#3b4458;margin:0;max-width:560px}
+.A .sub{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.A .sub h4{font:600 17px var(--display);margin:0 0 6px}
+.A .sub p{font:400 15px/1.5 var(--sans);color:var(--muted);margin:0 0 14px}
+.A .sub form{display:flex;gap:8px}
+.A .sub input{flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#fff}
+.A .sub small{display:block;margin-top:10px;font:12px var(--sans);color:var(--muted)}
+.A .sect{padding:48px 0;border-bottom:1px solid var(--line)}
+.A .sect-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px;gap:16px}
+.A .sect-h h3{font:600 13px var(--display);letter-spacing:.14em;text-transform:uppercase;margin:0}
+.A .sect-h a{font:500 14px var(--sans);color:var(--muted)}
+.A .start{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.A .start a{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;transition:transform .2s,border-color .2s}
+.A .start a:hover{transform:translateY(-3px);border-color:var(--orange)}
+.A .start .n{font:600 12px var(--mono);color:var(--orange-d)}
+.A .start h5{font:500 23px/1.2 var(--serif);margin:10px 0 8px}
+.A .start p{font:400 14.5px/1.5 var(--sans);color:var(--muted);margin:0}
+.A .list{list-style:none;margin:0;padding:0}
+.A .list li{display:grid;grid-template-columns:110px 1fr auto;gap:20px;padding:16px 0;border-top:1px solid var(--line);align-items:baseline}
+.A .list li:first-child{border-top:0}
+.A .list time{font:13px var(--mono);color:var(--muted)}
+.A .list a{font:500 21px/1.3 var(--serif);text-decoration:none}
+.A .list a:hover{color:var(--orange-d)}
+.A .tag{font:500 12px var(--sans);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.A .book{display:grid;grid-template-columns:1fr 1.5fr;gap:48px}
+.A .book h4{font:500 34px/1.1 var(--serif);margin:10px 0 14px}
+.A .book p{font:400 17px/1.55 var(--serif);color:#3b4458}
+.A .parts{list-style:none;margin:0;padding:0;counter-reset:p}
+.A .parts li{display:grid;grid-template-columns:44px 1fr 120px;gap:14px;padding:14px 0;border-top:1px solid var(--line);align-items:center}
+.A .parts .roman{font:600 15px var(--display);color:var(--orange-d)}
+.A .parts b{font:500 19px var(--serif);display:block}
+.A .parts span{font:14px var(--sans);color:var(--muted)}
+.A .prog{height:6px;background:var(--paper-2);border-radius:9px;overflow:hidden}
+.A .prog i{display:block;height:100%;background:var(--navy);border-radius:9px}
+.A footer{padding:32px 0;font:14px var(--sans);color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* A — article */
+.A.article .col{max-width:680px;margin:0 auto;padding:64px 24px 80px}
+.A.article h1{font:500 clamp(36px,5vw,54px)/1.05 var(--serif);letter-spacing:-.02em;margin:14px 0 18px}
+.A.article .by{display:flex;align-items:center;gap:12px;font:14px var(--sans);color:var(--muted);margin:24px 0 36px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.A.article .av{width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:600 14px var(--display)}
+.A.article p{font:400 20px/1.65 var(--serif);margin:0 0 22px}
+.A.article p.drop::first-letter{float:left;font:600 70px/.82 var(--serif);margin:6px 10px 0 0;color:var(--orange-d)}
+.A figure{margin:40px -60px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px}
+.A figcaption{font:13px var(--sans);color:var(--muted);margin-top:16px}
+.A .hb{display:grid;grid-template-columns:190px 1fr;gap:14px;align-items:center;margin:10px 0;font:14px var(--sans)}
+.A .hb .track{height:26px;position:relative}
+.A .hb .fill{height:100%;width:0;border-radius:4px;background:var(--blue);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.A .hb .fill::after{content:attr(data-v);position:absolute;left:calc(var(--w) + 10px);top:4px;font:600 14px var(--sans);color:var(--ink);opacity:0;transition:opacity .4s .9s}
+.A figure.on .hb .fill{width:var(--w)}
+.A figure.on .hb .fill::after{opacity:1}
+.A .hb.sum{color:var(--orange-d);font-weight:600}.A .hb.sum .fill{background:var(--orange)}
+.A .hb.real{font-weight:600}.A .hb.real .fill{background:var(--navy)}
+.A blockquote{margin:40px 0;padding:0 0 0 24px;border-left:3px solid var(--orange);font:italic 400 28px/1.35 var(--serif)}
+.A .say{background:var(--orange);border-radius:16px;padding:28px;margin:36px 0}
+.A .say s{font:600 18px var(--display);opacity:.7}
+.A .say small{display:block;font:700 11px var(--display);letter-spacing:.14em;margin:0 0 6px}
+.A .say p{font:600 22px/1.35 var(--display)!important;margin:0!important}
+.A details{border:1px solid var(--line);border-radius:12px;padding:0 20px;margin:28px 0;background:var(--card)}
+.A summary{cursor:pointer;padding:16px 0;font:600 15px var(--sans);list-style:none;display:flex;justify-content:space-between}
+.A summary::after{content:"+";font-weight:400;font-size:20px;line-height:1}
+.A details[open] summary::after{content:"–"}
+.A pre{font:13px/1.6 var(--mono);background:var(--navy);color:#dfe6f3;border-radius:10px;padding:18px;overflow:auto;margin:0 0 18px}
+.A pre .k{color:var(--orange)} .A pre .c{color:#8d9bb8}
+.A .monday{background:var(--navy);color:#fff;border-radius:16px;padding:28px 30px;margin-top:40px}
+.A .monday h4{font:600 13px var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin:0 0 14px}
+.A .monday ol{margin:0;padding-left:20px;font:16px/1.6 var(--sans)}
+.A .monday li{margin:6px 0}
+
+@media (max-width:860px){
+  .A .wrap{padding:0 18px}
+  .A nav ul{display:none}
+  .A .hero,.A .book{grid-template-columns:1fr;gap:28px}
+  .A .start{grid-template-columns:1fr}
+  .A .list li{grid-template-columns:1fr;gap:4px}
+  .A .parts li{grid-template-columns:36px 1fr}
+  .A .parts .prog{grid-column:2}
+  .A figure{margin:32px 0;padding:18px}
+  .A .hb{grid-template-columns:1fr;gap:4px}
+  .A.article p{font-size:18px}
+}
+
+/* =========================================================
+   DIRECTION B — THE LAB (interactive)
+   ========================================================= */
+.B{background:var(--navy);color:#e9edf5;font-family:var(--sans)}
+.B .wrap{max-width:1140px;margin:0 auto;padding:0 32px}
+.B nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0;gap:16px}
+.B .mark{display:flex;align-items:center;gap:10px;font:700 16px var(--display);text-decoration:none}
+.B .mark .glyph{display:flex;gap:3px;align-items:flex-end;height:20px}
+.B .mark .glyph i{width:5px;border-radius:1.5px;background:var(--blue-l);display:block}
+.B .mark .glyph i:nth-child(1){height:6px;opacity:.5}.B .mark .glyph i:nth-child(2){height:10px;opacity:.7}.B .mark .glyph i:nth-child(3){height:14px}.B .mark .glyph i:nth-child(4){height:20px;background:var(--orange)}
+.B nav ul{display:flex;gap:24px;list-style:none;margin:0;padding:0;font:500 14px var(--sans);color:#aab4c8}
+.B .btn{font:600 14px var(--display);background:var(--orange);color:var(--navy);border:0;border-radius:10px;padding:11px 18px;cursor:pointer;white-space:nowrap}
+.B .btn.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px #3b4d78}
+.B .hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;padding:56px 0 72px}
+.B .eyebrow{font:600 12px var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.B h2.big{font:700 clamp(40px,5.6vw,72px)/.98 var(--display);letter-spacing:-.03em;margin:16px 0 20px;color:#fff}
+.B h2.big span{color:var(--orange)}
+.B .dek{font:400 19px/1.55 var(--sans);color:#b9c3d6;max-width:520px;margin:0 0 28px}
+.B .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.B .loop{width:100%;max-width:460px;justify-self:center;aspect-ratio:1}
+.B .loop text{font:500 12.5px var(--display);fill:#7e8cab;transition:fill .3s}
+.B .loop text.on{fill:#fff}
+.B .loop .node{fill:var(--navy-2);stroke:#3b4d78;stroke-width:1.5;transition:all .3s}
+.B .loop .node.on{fill:var(--orange);stroke:var(--orange)}
+.B .loop .center1{font:700 22px var(--display);fill:#fff}
+.B .loop .center2{font:500 12px var(--sans);fill:#8b98b5}
+
+.B .band{background:var(--navy-2);border-top:1px solid #26375f;border-bottom:1px solid #26375f}
+.B .sect{padding:56px 0}
+.B .sect-h{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:26px;flex-wrap:wrap}
+.B .sect-h h3{font:700 30px/1.1 var(--display);color:#fff;margin:8px 0 0;letter-spacing:-.01em}
+.B .tracks{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.B .track{background:var(--navy);border:1px solid #2c3e68;border-radius:14px;padding:16px;cursor:pointer;text-align:left;color:inherit;transition:border-color .2s,transform .2s}
+.B .track:hover{transform:translateY(-2px)}
+.B .track[aria-pressed="true"]{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+.B .track .num{font:500 12px var(--mono);color:var(--orange)}
+.B .track b{display:block;font:600 17px var(--display);color:#fff;margin:6px 0 10px}
+.B .track .pb{height:4px;border-radius:9px;background:#26375f;overflow:hidden}
+.B .track .pb i{display:block;height:100%;background:var(--blue-l);border-radius:9px}
+.B .track small{display:block;margin-top:8px;font-size:12px;color:#8391ae}
+.B .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.B .card{background:var(--navy-2);border:1px solid #2a3b63;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,opacity .3s}
+.B .card:hover{transform:translateY(-4px)}
+.B .card.dim{opacity:.25}
+.B .card .viz{height:130px;background:#16223f;position:relative;overflow:hidden}
+.B .card .body{padding:18px 18px 20px;flex:1;display:flex;flex-direction:column;gap:8px}
+.B .fmt{align-self:flex-start;font:600 11px var(--display);letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:6px;background:#26375f;color:#b9c7e6}
+.B .fmt.x{background:var(--orange);color:var(--navy)}
+.B .card h5{font:600 19px/1.25 var(--display);color:#fff;margin:0}
+.B .card p{font:14px/1.5 var(--sans);color:#a3aec4;margin:0}
+.B .card .meta{margin-top:auto;padding-top:8px;font:12px var(--mono);color:#7482a0}
+/* card mini visuals */
+.B .v-bars{position:absolute;inset:24px 22px;display:flex;align-items:flex-end;gap:10px}
+.B .v-bars i{flex:1;background:var(--blue);border-radius:4px 4px 0 0;animation:grow 2.6s ease-in-out infinite alternate}
+.B .v-bars i:last-child{background:var(--orange)}
+@keyframes grow{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+.B .v-bars i{transform-origin:bottom}
+.B .v-dots{position:absolute;inset:0}
+.B .v-dots i{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--blue-l);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+.B .v-play{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(135deg,#1f3363,#13203d)}
+.B .v-play span{width:52px;height:52px;border-radius:50%;background:var(--orange);display:grid;place-items:center}
+.B .v-play span::after{content:"";border-left:16px solid var(--navy);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:5px}
+
+/* B — interactive article */
+.B.article{background:var(--paper);color:var(--ink)}
+.B.article .head{background:var(--navy);color:#fff;padding:64px 0 56px}
+.B.article .head .wrap{max-width:820px}
+.B.article h1{font:700 clamp(34px,5vw,56px)/1.02 var(--display);letter-spacing:-.03em;margin:14px 0 16px}
+.B.article .head p{font:19px/1.55 var(--sans);color:#b9c3d6;margin:0;max-width:640px}
+.B.article .body{max-width:820px;margin:0 auto;padding:48px 32px 72px}
+.B.article .body > p{font:18px/1.7 var(--sans);color:#2a3550;margin:0 0 20px;max-width:680px}
+.B .lab{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;margin:32px 0;box-shadow:0 12px 40px -24px rgba(19,32,61,.4)}
+.B .lab-h{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:6px}
+.B .lab-h b{font:700 13px var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--orange-d)}
+.B .lab-h span{font:12px var(--mono);color:var(--muted)}
+.B .lab h4{font:700 22px/1.2 var(--display);margin:4px 0 18px;color:var(--ink)}
+.B .row{display:grid;grid-template-columns:150px 1fr 70px;gap:14px;align-items:center;margin:10px 0;font:14px var(--sans)}
+.B .row .t{height:26px;background:var(--paper);border-radius:6px;position:relative;overflow:hidden}
+.B .row .t i{position:absolute;inset:0 auto 0 0;background:var(--blue);border-radius:6px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.B .row.sum{color:var(--orange-d);font-weight:600}.B .row.sum .t i{background:var(--orange)}
+.B .row.real{font-weight:600}.B .row.real .t i{background:var(--navy)}
+.B .row output{font:600 14px var(--mono);text-align:right}
+.B .row input[type=range]{grid-column:2 / 3;width:100%;accent-color:var(--blue);margin:-6px 0 4px}
+.B .verdict{margin-top:18px;padding:14px 16px;border-radius:12px;background:#fdf1e6;font:15px/1.5 var(--sans);color:#6b3610}
+.B .verdict b{font-family:var(--display);font-size:18px}
+.B .curve{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:center}
+.B .curve svg{width:100%;height:auto;display:block}
+.B .curve svg text{font:11px var(--sans);fill:var(--muted)}
+.B .stat{border-top:1px solid var(--line);padding:12px 0}
+.B .stat:first-child{border-top:0}
+.B .stat small{display:block;font:12px var(--sans);color:var(--muted)}
+.B .stat b{font:700 26px var(--display);color:var(--ink)}
+.B .stat b.o{color:var(--orange-d)}
+.B .slider{margin-top:14px}
+.B .slider label{display:flex;justify-content:space-between;font:13px var(--sans);color:var(--muted);margin-bottom:6px}
+.B .slider input{width:100%;accent-color:var(--orange)}
+.B .ghostbtn{margin-top:10px;background:none;border:1.5px solid var(--ink);border-radius:8px;padding:8px 12px;font:600 13px var(--display);color:var(--ink);cursor:pointer}
+.B .news{background:var(--orange);color:var(--navy)}
+.B .news .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;padding:48px 32px}
+.B .news h3{font:700 32px/1.1 var(--display);margin:0 0 8px}
+.B .news p{margin:0;font:16px/1.5 var(--sans)}
+.B .news form{display:flex;gap:8px}
+.B .news input{flex:1;min-width:0;border:0;border-radius:10px;padding:13px 14px}
+.B .news .btn{background:var(--navy);color:#fff}
+.B footer{padding:28px 0;font:14px var(--sans);color:#8391ae;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:900px){
+  .B .wrap{padding:0 18px}
+  .B nav ul{display:none}
+  .B .hero{grid-template-columns:1fr;padding-top:24px}
+  .B .tracks{grid-template-columns:repeat(2,1fr)}
+  .B .grid{grid-template-columns:1fr}
+  .B .curve{grid-template-columns:1fr}
+  .B .row{grid-template-columns:1fr 60px}
+  .B .row .t{grid-column:1 / 3;grid-row:2}
+  .B .row input[type=range]{grid-column:1 / 3}
+  .B.article .body{padding:36px 18px 56px}
+  .B .news .wrap{grid-template-columns:1fr;padding:36px 18px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="chrome">
+  <h1>Engineering the Modern Agency: two directions</h1>
+  <p class="lede">Two mockups, each with a homepage and an article page. Both use the KORTX identity from <em>Measuring What Matters</em> (navy, orange, Space Grotesk and IBM Plex), so the blog and the company look like one voice. Post titles are sample content taken from your deck and KORTX OS notes.</p>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-dir="A" aria-selected="true">A · The Field Manual (editorial)</button>
+    <button class="tab" role="tab" data-dir="B" aria-selected="false">B · The Lab (interactive)</button>
+  </div>
+</header>
+
+<!-- ================= DIRECTION A ================= -->
+<section class="dir" id="dir-A">
+  <div class="chrome" style="padding-top:0">
+    <div class="notes">
+      <div class="note"><b>The feel</b>A serious book people want to finish. Serif long-form, warm paper, lots of whitespace. Closer to leerob.com, Stripe Press and overreacted.io.</div>
+      <div class="note"><b>Strengths</b><ul><li>Reads as credible to agency owners</li><li>The book-in-progress is front and center</li><li>Cheap to publish often: writing is the product</li></ul></div>
+      <div class="note"><b>Risks</b><ul><li>Can blend in with other thought-leadership blogs</li><li>Interactivity is limited to scroll-reveal charts</li><li>Depends entirely on writing quality</li></ul></div>
+    </div>
+  </div>
+
+  <div class="label">Homepage</div>
+  <div class="frame"><div class="window">
+    <div class="bar"><i></i><i></i><i></i><span>romanumero.github.io</span></div>
+    <div class="A">
+      <div class="wrap">
+        <nav>
+          <a class="mark" href="#">Engineering the <em>Modern Agency</em></a>
+          <ul><li>Essays</li><li>Roadmap</li><li>The Book</li><li>Videos</li><li>About</li></ul>
+          <button class="btn">Subscribe</button>
+        </nav>
+
+        <div class="hero">
+          <div>
+            <div class="eyebrow">A working notebook by Damon Henry · Founder, KORTX</div>
+            <h2 class="big">Agencies aren’t dying. They’re being <i>re-engineered.</i></h2>
+            <p class="dek">Practical notes on AI, automation, measurement and leadership, from someone who builds the systems and still answers to clients every week.</p>
+          </div>
+          <div class="sub">
+            <h4>One useful email, once a month</h4>
+            <p>A new chapter draft, one tool worth trying, one thing I got wrong. No hype.</p>
+            <form onsubmit="return false"><input placeholder="you@agency.com" aria-label="Email"><button class="btn">Join</button></form>
+            <small>Read by agency owners, media leads and analysts.</small>
+          </div>
+        </div>
+
+        <div class="sect">
+          <div class="sect-h"><h3>Start here</h3><a href="#">The full roadmap →</a></div>
+          <div class="start">
+            <a href="#"><span class="n">01 · Measurement</span><h5>Every platform grades its own homework</h5><p>Why Meta, Google and TikTok together claim more sales than you actually had, and what to report instead.</p></a>
+            <a href="#"><span class="n">02 · Operating model</span><h5>The agency API</h5><p>Stop building every capability in-house. How to design an agency that plugs into specialized capacity.</p></a>
+            <a href="#"><span class="n">03 · AI</span><h5>Evals for people who don’t write code</h5><p>How to know your AI workflow is right before your client finds out it isn’t.</p></a>
+          </div>
+        </div>
+
+        <div class="sect">
+          <div class="sect-h"><h3>Recent essays</h3><a href="#">All essays →</a></div>
+          <ul class="list">
+            <li><time>2026 · 09 · 22</time><a href="#">The measurement ladder: four questions, each harder than the last</a><span class="tag">Measurement</span></li>
+            <li><time>2026 · 09 · 08</time><a href="#">An agent is not a chatbot. It’s a job description.</a><span class="tag">AI</span></li>
+            <li><time>2026 · 08 · 25</time><a href="#">Say this, not that: reporting that gets budgets approved</a><span class="tag">Leadership</span></li>
+            <li><time>2026 · 01 · 14</time><a href="#">The terminal was never the problem. Access was.</a><span class="tag">Automation</span></li>
+            <li><time>2025 · 01 · 18</time><a href="#">The MAGIC framework: trust the evidence closest to profit</a><span class="tag">Measurement</span></li>
+          </ul>
+        </div>
+
+        <div class="sect">
+          <div class="book">
+            <div>
+              <div class="eyebrow">Written in public</div>
+              <h4>The book, one essay at a time.</h4>
+              <p>Every essay here is a draft chapter of <em>Engineering the Modern Agency</em>. Subscribers read chapters first and help shape the final book.</p>
+            </div>
+            <ul class="parts">
+              <li><span class="roman">I</span><div><b>The Shift</b><span>Why this is the best time to run an agency</span></div><div class="prog"><i style="width:40%"></i></div></li>
+              <li><span class="roman">II</span><div><b>Measuring What Matters</b><span>MAGIC, incrementality, MMM</span></div><div class="prog"><i style="width:75%"></i></div></li>
+              <li><span class="roman">III</span><div><b>AI That Works</b><span>Agents, evals, human-in-the-loop</span></div><div class="prog"><i style="width:30%"></i></div></li>
+              <li><span class="roman">IV</span><div><b>The Agency Operating System</b><span>Data, workflows, automation</span></div><div class="prog"><i style="width:20%"></i></div></li>
+              <li><span class="roman">V</span><div><b>Leading Through It</b><span>Teams, pricing, decision rights</span></div><div class="prog"><i style="width:10%"></i></div></li>
+            </ul>
+          </div>
+        </div>
+
+        <footer><span>© 2026 Damon Henry</span><span>YouTube · LinkedIn · X · RSS</span></footer>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="label">Article page</div>
+  <div class="frame"><div class="window">
+    <div class="bar"><i></i><i></i><i></i><span>romanumero.github.io/2026/09/22/platforms-grade-their-own-homework</span></div>
+    <div class="A article">
+      <div class="col">
+        <div class="eyebrow">Measurement · Draft of Chapter 6</div>
+        <h1>Every platform grades its own homework</h1>
+        <p class="dek">Platforms now automate the buying. Proving what worked is still up to you.</p>
+        <div class="by"><div class="av">DH</div><div>Damon Henry · 9 min read · <a href="#">Watch the 6-min video</a></div></div>
+
+        <p class="drop">Last month one of our agency partners had 1,000 orders. Their platforms reported 1,340. Nobody lied. Each platform counted by its own rules, and all three claimed credit for many of the same customers.</p>
+        <p>This isn’t a tracking bug you can fix. It’s how attribution works. And more and more, it’s how your client’s budget gets decided.</p>
+
+        <figure id="figA">
+          <div class="hb"><span>Meta (reported)</span><div class="track"><div class="fill" style="--w:46%" data-v="620"></div></div></div>
+          <div class="hb"><span>Google (reported)</span><div class="track"><div class="fill" style="--w:40%" data-v="540"></div></div></div>
+          <div class="hb"><span>TikTok (reported)</span><div class="track"><div class="fill" style="--w:13%" data-v="180"></div></div></div>
+          <div class="hb sum"><span>Sum of platform claims</span><div class="track"><div class="fill" style="--w:100%;max-width:calc(100% - 60px)" data-v="1,340"></div></div></div>
+          <div class="hb real"><span>Actual orders</span><div class="track"><div class="fill" style="--w:74.6%" data-v="1,000"></div></div></div>
+          <figcaption>Illustrative: one month with 1,000 real orders.</figcaption>
+        </figure>
+
+        <blockquote>Attribution shows what customers touched, not what media caused.</blockquote>
+        <p>The fix isn’t a better dashboard. It’s changing the question you answer for your client.</p>
+
+        <div class="say">
+          <small>INSTEAD OF</small><s>“Facebook had a 2.5x ROAS.”</s>
+          <small style="margin-top:16px">SAY</small>
+          <p>“Our geo test showed Meta drove $120K in incremental revenue at a CAC 20% below target. We recommend a 15% budget increase.”</p>
+        </div>
+
+        <details>
+          <summary>For the technical reader: reconciling claims in 6 lines of SQL</summary>
+          <pre><span class="c">-- how much are platforms over-claiming?</span>
+<span class="k">SELECT</span> month,
+       <span class="k">SUM</span>(platform_conversions)          <span class="k">AS</span> claimed,
+       <span class="k">MAX</span>(store_orders)                  <span class="k">AS</span> actual,
+       <span class="k">SUM</span>(platform_conversions) / <span class="k">MAX</span>(store_orders) <span class="k">AS</span> overclaim
+<span class="k">FROM</span> monthly_channel_summary <span class="k">GROUP BY</span> month;</pre>
+        </details>
+
+        <div class="monday">
+          <h4>What to do Monday</h4>
+          <ol>
+            <li>Pull last month’s platform-reported conversions and add them up.</li>
+            <li>Compare the total with actual orders from the client’s store or CRM.</li>
+            <li>Show that one number to your client. It opens the incrementality conversation.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ================= DIRECTION B ================= -->
+<section class="dir" id="dir-B" hidden>
+  <div class="chrome" style="padding-top:0">
+    <div class="notes">
+      <div class="note"><b>The feel</b>A product, not a blog. Dark KORTX navy, animated systems and interactive explainers you can play with. Closer to joshwcomeau.com and Stripe’s own docs and sites.</div>
+      <div class="note"><b>Strengths</b><ul><li>Instantly memorable. Nobody in agency land does this.</li><li>Shows the engineering instead of claiming it</li><li>Interactive pieces are ready-made YouTube and LinkedIn clips</li></ul></div>
+      <div class="note"><b>Risks</b><ul><li>Each interactive post takes days, not hours</li><li>Can feel like KORTX marketing, not you</li><li>Dark long-form reading is tiring, so articles switch to light</li></ul></div>
+    </div>
+  </div>
+
+  <div class="label">Homepage</div>
+  <div class="frame"><div class="window">
+    <div class="bar"><i></i><i></i><i></i><span>romanumero.github.io</span></div>
+    <div class="B">
+      <div class="wrap">
+        <nav>
+          <a class="mark" href="#"><span class="glyph"><i></i><i></i><i></i><i></i></span>Engineering the Modern Agency</a>
+          <ul><li>Roadmap</li><li>Explainers</li><li>Playbooks</li><li>Videos</li><li>The Book</li></ul>
+          <button class="btn">Subscribe</button>
+        </nav>
+        <div class="hero">
+          <div>
+            <div class="eyebrow">Damon Henry · Founder, KORTX</div>
+            <h2 class="big">The agency is becoming an <span>operating system.</span></h2>
+            <p class="dek">AI, automation and real measurement are rewriting how agencies work. I build these systems every day. Here’s the roadmap, with the parts you can touch.</p>
+            <div class="ctas"><button class="btn">Explore the roadmap</button><button class="btn ghost">▶ Watch on YouTube</button></div>
+          </div>
+          <svg class="loop" id="loop" viewBox="-40 0 480 400" role="img" aria-label="Animated agency lifecycle loop: Discover, Strategize, Plan, Activate, Operate, Measure, Analyze, Optimize, Learn">
+            <circle cx="200" cy="200" r="130" fill="none" stroke="#26375f" stroke-width="2"/>
+            <circle id="loopArc" cx="200" cy="200" r="130" fill="none" stroke="#ef8f3e" stroke-width="3" stroke-linecap="round" stroke-dasharray="0 817" transform="rotate(-90 200 200)"/>
+            <g id="loopNodes"></g>
+            <text class="center1" x="200" y="196" text-anchor="middle">Every lap</text>
+            <text class="center2" x="200" y="220" text-anchor="middle">makes the next one smarter</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="band"><div class="wrap sect">
+        <div class="sect-h"><div><div class="eyebrow">The roadmap</div><h3>Eight tracks. Pick where you’re stuck.</h3></div><span style="font-size:14px;color:#8391ae">Click a track to filter ↓</span></div>
+        <div class="tracks" id="tracks">
+          <button class="track" data-t="ai"><span class="num">01</span><b>AI</b><div class="pb"><i style="width:55%"></i></div><small>6 posts · 2 videos</small></button>
+          <button class="track" data-t="evals"><span class="num">02</span><b>Evals &amp; Testing</b><div class="pb"><i style="width:25%"></i></div><small>2 posts</small></button>
+          <button class="track" data-t="auto"><span class="num">03</span><b>Automation</b><div class="pb"><i style="width:40%"></i></div><small>4 posts</small></button>
+          <button class="track" data-t="analytics"><span class="num">04</span><b>Analytics</b><div class="pb"><i style="width:35%"></i></div><small>3 posts</small></button>
+          <button class="track" data-t="mmm"><span class="num">05</span><b>MMM</b><div class="pb"><i style="width:45%"></i></div><small>3 posts · 1 interactive</small></button>
+          <button class="track" data-t="incr"><span class="num">06</span><b>Incrementality</b><div class="pb"><i style="width:60%"></i></div><small>5 posts · 2 interactive</small></button>
+          <button class="track" data-t="process"><span class="num">07</span><b>Process</b><div class="pb"><i style="width:20%"></i></div><small>2 posts</small></button>
+          <button class="track" data-t="lead"><span class="num">08</span><b>Leadership</b><div class="pb"><i style="width:30%"></i></div><small>4 posts</small></button>
+        </div>
+      </div></div>
+
+      <div class="wrap sect">
+        <div class="sect-h"><div><div class="eyebrow">Latest</div><h3>Explainers, playbooks &amp; essays</h3></div></div>
+        <div class="grid" id="cards">
+          <article class="card" data-t="incr"><div class="viz"><div class="v-bars"><i style="height:46%"></i><i style="height:40%;animation-delay:.3s"></i><i style="height:14%;animation-delay:.6s"></i><i style="height:100%;animation-delay:.9s"></i></div></div><div class="body"><span class="fmt x">Interactive</span><h5>Every platform grades its own homework</h5><p>Drag the sliders and watch the platform claims pass your real sales.</p><span class="meta">Incrementality · 9 min</span></div></article>
+          <article class="card" data-t="ai"><div class="viz"><div class="v-dots" id="dots"></div></div><div class="body"><span class="fmt">Essay</span><h5>An agent is not a chatbot. It’s a job description.</h5><p>Model + role + tools + context + permissions + objective. Miss one and it fails.</p><span class="meta">AI · 7 min</span></div></article>
+          <article class="card" data-t="mmm"><div class="viz"><div class="v-play"><span></span></div></div><div class="body"><span class="fmt">Video</span><h5>MMM in 8 minutes, for agency owners</h5><p>What a marketing mix model can and can’t tell your client, drawn on a whiteboard.</p><span class="meta">MMM · 8 min watch</span></div></article>
+          <article class="card" data-t="evals"><div class="viz"><div class="v-bars"><i style="height:80%;background:#2f7d57"></i><i style="height:80%;background:#2f7d57;animation-delay:.4s"></i><i style="height:80%;background:#b23a3a;animation-delay:.8s"></i><i style="height:80%;background:#2f7d57;animation-delay:1.2s"></i></div></div><div class="body"><span class="fmt">Playbook</span><h5>Evals for people who don’t write code</h5><p>A spreadsheet, twenty examples and one afternoon. Your first AI test suite.</p><span class="meta">Evals &amp; Testing · 12 min</span></div></article>
+          <article class="card" data-t="process"><div class="viz"><div class="v-bars"><i style="height:30%"></i><i style="height:50%;animation-delay:.2s"></i><i style="height:70%;animation-delay:.4s"></i><i style="height:90%;animation-delay:.6s"></i></div></div><div class="body"><span class="fmt">Essay</span><h5>The agency API</h5><p>Why the next great agencies will be built from plug-in capabilities.</p><span class="meta">Process · 6 min</span></div></article>
+          <article class="card" data-t="lead"><div class="viz"><div class="v-play"><span></span></div></div><div class="body"><span class="fmt">Video</span><h5>Who decides when the AI decides?</h5><p>Setting decision rights before an agent moves real budget.</p><span class="meta">Leadership · 11 min watch</span></div></article>
+        </div>
+      </div>
+
+      <div class="news"><div class="wrap">
+        <div><h3>Get the next chapter first.</h3><p>Every essay is a draft of the book <em>Engineering the Modern Agency</em>. Subscribers shape it.</p></div>
+        <form onsubmit="return false"><input placeholder="you@agency.com" aria-label="Email"><button class="btn">Subscribe</button></form>
+      </div></div>
+      <div class="wrap"><footer><span>© 2026 Damon Henry</span><span>YouTube · LinkedIn · X · RSS</span></footer></div>
+    </div>
+  </div></div>
+
+  <div class="label">Article page: interactive explainer</div>
+  <div class="frame"><div class="window">
+    <div class="bar"><i></i><i></i><i></i><span>romanumero.github.io/2026/09/22/platforms-grade-their-own-homework</span></div>
+    <div class="B article">
+      <div class="head"><div class="wrap">
+        <div class="eyebrow">Interactive · Incrementality · Chapter 6 draft</div>
+        <h1>Every platform grades its own homework</h1>
+        <p>Platforms now automate the buying. Proving what worked is still up to you. Play with the numbers below.</p>
+      </div></div>
+      <div class="body">
+        <p>Last month one of our agency partners had 1,000 orders. Their platforms reported 1,340. Each counted by its own rules, and all of them claimed some of the same customers. Try it: nudge any platform’s number and see how quickly the story falls apart.</p>
+
+        <div class="lab" id="claims">
+          <div class="lab-h"><b>Try it</b><span>1,000 real orders this month</span></div>
+          <h4>How many sales are your platforms claiming?</h4>
+          <div class="row"><span>Meta</span><div class="t"><i></i></div><output></output><input type="range" min="0" max="1000" value="620" data-k="meta" aria-label="Meta reported"></div>
+          <div class="row"><span>Google</span><div class="t"><i></i></div><output></output><input type="range" min="0" max="1000" value="540" data-k="google" aria-label="Google reported"></div>
+          <div class="row"><span>TikTok</span><div class="t"><i></i></div><output></output><input type="range" min="0" max="1000" value="180" data-k="tiktok" aria-label="TikTok reported"></div>
+          <div class="row sum"><span>Sum of claims</span><div class="t"><i></i></div><output></output></div>
+          <div class="row real"><span>Actual orders</span><div class="t"><i></i></div><output>1,000</output></div>
+          <div class="verdict" id="verdict"></div>
+        </div>
+
+        <p>So if attribution can’t tell you what media <em>caused</em>, how do you decide where the next dollar goes? Every channel eventually hits diminishing returns. The best channel on average often isn’t the best place for your next dollar.</p>
+
+        <div class="lab">
+          <div class="lab-h"><b>Try it</b><span>$200K monthly budget · illustrative response curves</span></div>
+          <h4>Where should the next dollar go?</h4>
+          <div class="curve">
+            <svg id="curveSvg" viewBox="0 0 520 300" role="img" aria-label="Response curves for paid search and paid social"></svg>
+            <div>
+              <div class="stat"><small>Incremental revenue from this split</small><b id="totRev">$0</b></div>
+              <div class="stat"><small>Next $1 in search returns</small><b id="mSearch">$0</b></div>
+              <div class="stat"><small>Next $1 in social returns</small><b class="o" id="mSocial">$0</b></div>
+            </div>
+          </div>
+          <div class="slider">
+            <label><span>Search <b id="sLbl"></b></span><span>Social <b id="soLbl"></b></span></label>
+            <input type="range" id="split" min="0" max="200" step="2" value="140" aria-label="Budget split between search and social">
+            <button class="ghostbtn" id="optimize">Find the best split</button>
+          </div>
+          <div class="verdict" id="curveVerdict"></div>
+        </div>
+
+        <p>Nothing changed except where the money went. That’s the whole case for marketing mix modeling, and why you calibrate it with real experiments. That’s the next chapter.</p>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<script>
+// ---------- tabs ----------
+const tabs=[...document.querySelectorAll('.tab')];
+function show(d){
+  tabs.forEach(t=>t.setAttribute('aria-selected',t.dataset.dir===d));
+  document.getElementById('dir-A').hidden=d!=='A';
+  document.getElementById('dir-B').hidden=d!=='B';
+  try{localStorage.setItem('dir',d)}catch(e){}
+  if(d==='A') revealA();
+}
+tabs.forEach(t=>t.onclick=()=>show(t.dataset.dir));
+
+// ---------- A: reveal chart on scroll ----------
+function revealA(){
+  const f=document.getElementById('figA');
+  if(!('IntersectionObserver' in window)){f.classList.add('on');return}
+  new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){f.classList.add('on');o.disconnect()}}),{threshold:.4}).observe(f);
+}
+
+// ---------- B: lifecycle loop ----------
+const stages=['Discover','Strategize','Plan','Activate','Operate','Measure','Analyze','Optimize','Learn'];
+const g=document.getElementById('loopNodes'),NS='http://www.w3.org/2000/svg',nodes=[],labels=[];
+stages.forEach((s,i)=>{
+  const a=-Math.PI/2+i*2*Math.PI/stages.length, x=200+130*Math.cos(a), y=200+130*Math.sin(a);
+  const c=document.createElementNS(NS,'circle');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',9);c.setAttribute('class','node');g.appendChild(c);nodes.push(c);
+  const t=document.createElementNS(NS,'text');const lx=200+168*Math.cos(a),ly=200+168*Math.sin(a)+4;
+  t.setAttribute('x',lx);t.setAttribute('y',ly);t.setAttribute('text-anchor',Math.abs(Math.cos(a))<.3?'middle':(Math.cos(a)>0?'start':'end'));
+  if(Math.abs(Math.cos(a))>=.3) t.setAttribute('x',200+150*Math.cos(a)+(Math.cos(a)>0?8:-8));
+  t.textContent=s;g.appendChild(t);labels.push(t);
+});
+const arc=document.getElementById('loopArc'),C=2*Math.PI*130;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let t0=null;
+function tick(ts){
+  if(t0===null)t0=ts;
+  const p=((ts-t0)/9000)%1, idx=Math.floor(p*stages.length+1e-6);
+  arc.setAttribute('stroke-dasharray',`${p*C} ${C}`);
+  nodes.forEach((n,i)=>n.classList.toggle('on',i<=idx));
+  labels.forEach((l,i)=>l.classList.toggle('on',i===idx));
+  requestAnimationFrame(tick);
+}
+if(reduce){arc.setAttribute('stroke-dasharray',`${C} ${C}`);nodes.forEach(n=>n.classList.add('on'))}else requestAnimationFrame(tick);
+
+// card dots
+const dots=document.getElementById('dots');
+for(let i=0;i<18;i++){const d=document.createElement('i');d.style.left=(8+Math.random()*84)+'%';d.style.top=(12+Math.random()*70)+'%';d.style.animationDelay=(Math.random()*2.4)+'s';if(i%6===0)d.style.background='#ef8f3e';dots.appendChild(d)}
+
+// track filter
+const trackBtns=[...document.querySelectorAll('.track')],cards=[...document.querySelectorAll('#cards .card')];
+trackBtns.forEach(b=>b.onclick=()=>{
+  const on=b.getAttribute('aria-pressed')!=='true';
+  trackBtns.forEach(x=>x.setAttribute('aria-pressed','false'));
+  if(on)b.setAttribute('aria-pressed','true');
+  cards.forEach(c=>c.classList.toggle('dim',on&&c.dataset.t!==b.dataset.t));
+});
+
+// ---------- B: claims widget ----------
+const claims=document.getElementById('claims'),rows=[...claims.querySelectorAll('.row')];
+const fmt=n=>n.toLocaleString('en-US');
+function updClaims(){
+  const v={};claims.querySelectorAll('input').forEach(i=>v[i.dataset.k]=+i.value);
+  const sum=v.meta+v.google+v.tiktok, max=Math.max(2000,sum);
+  const vals=[v.meta,v.google,v.tiktok,sum,1000];
+  rows.forEach((r,i)=>{r.querySelector('.t i').style.width=(vals[i]/max*100)+'%';r.querySelector('output').textContent=fmt(vals[i])});
+  const diff=sum-1000, el=document.getElementById('verdict');
+  el.innerHTML = diff>0
+    ? `Platforms are claiming <b>${fmt(diff)} sales that never happened</b>, ${Math.round(diff/10)}% more than exist. Each one is “right” by its own rules.`
+    : `Claims add up to ${fmt(sum)}, which is at or below reality. In practice this almost never happens, because each platform counts view-throughs, cross-device and overlaps its own way.`;
+}
+claims.querySelectorAll('input').forEach(i=>i.oninput=updClaims);updClaims();
+
+// ---------- B: response curves ----------
+const ch={search:{a:420,k:60,c:'#2d5ea6'},social:{a:380,k:110,c:'#e07b2c'}}; // $K revenue, $K spend
+const rev=(c,s)=>c.a*(1-Math.exp(-s/c.k)), marg=(c,s)=>c.a/c.k*Math.exp(-s/c.k);
+const svg=document.getElementById('curveSvg'),W=520,H=300,L=44,R=12,T=16,B=36,maxS=200,maxR=440;
+const X=s=>L+s/maxS*(W-L-R), Y=r=>H-B-r/maxR*(H-T-B);
+function path(c){let d='';for(let s=0;s<=maxS;s+=2)d+=(s?'L':'M')+X(s).toFixed(1)+','+Y(rev(c,s)).toFixed(1);return d}
+svg.innerHTML=`
+  <line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#dcd6cb"/>
+  <line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#dcd6cb"/>
+  ${[100,200,300,400].map(r=>`<line x1="${L}" x2="${W-R}" y1="${Y(r)}" y2="${Y(r)}" stroke="#efebe4"/><text x="${L-6}" y="${Y(r)+4}" text-anchor="end">$${r}K</text>`).join('')}
+  <text x="${L}" y="${H-12}">$0</text><text x="${W-R}" y="${H-12}" text-anchor="end">$200K spend</text>
+  <path d="${path(ch.search)}" fill="none" stroke="${ch.search.c}" stroke-width="3"/>
+  <path d="${path(ch.social)}" fill="none" stroke="${ch.social.c}" stroke-width="3"/>
+  <text x="${W-R}" y="${Y(rev(ch.search,200))-8}" text-anchor="end" style="fill:${ch.search.c};font-weight:600">Paid search</text>
+  <text x="${W-R}" y="${Y(rev(ch.social,200))+18}" text-anchor="end" style="fill:${ch.social.c};font-weight:600">Paid social</text>
+  <line id="gS" stroke="${ch.search.c}" stroke-dasharray="4 4"/><circle id="dS" r="7" fill="${ch.search.c}" stroke="#fff" stroke-width="2"/>
+  <line id="gO" stroke="${ch.social.c}" stroke-dasharray="4 4"/><circle id="dO" r="7" fill="${ch.social.c}" stroke="#fff" stroke-width="2"/>`;
+const split=document.getElementById('split'),money=n=>'$'+Math.round(n).toLocaleString('en-US')+'K';
+let best=0,bestS=0;for(let s=0;s<=200;s+=1){const r=rev(ch.search,s)+rev(ch.social,200-s);if(r>best){best=r;bestS=s}}
+const baseline=rev(ch.search,140)+rev(ch.social,60);
+function place(id,gid,c,s){const d=svg.querySelector('#'+id),l=svg.querySelector('#'+gid);d.setAttribute('cx',X(s));d.setAttribute('cy',Y(rev(c,s)));l.setAttribute('x1',X(s));l.setAttribute('x2',X(s));l.setAttribute('y1',Y(rev(c,s)));l.setAttribute('y2',H-B)}
+function updCurve(){
+  const s=+split.value,o=200-s,tot=rev(ch.search,s)+rev(ch.social,o),ms=marg(ch.search,s),mo=marg(ch.social,o);
+  place('dS','gS',ch.search,s);place('dO','gO',ch.social,o);
+  document.getElementById('sLbl').textContent=money(s);document.getElementById('soLbl').textContent=money(o);
+  document.getElementById('totRev').textContent=money(tot);
+  document.getElementById('mSearch').textContent='$'+ms.toFixed(2);document.getElementById('mSocial').textContent='$'+mo.toFixed(2);
+  const gain=tot-baseline,v=document.getElementById('curveVerdict');
+  if(Math.abs(s-bestS)<=3) v.innerHTML=`<b>That’s the sweet spot.</b> The next dollar earns about the same in both channels. Same $200K, <b>${gain>=0?'+':''}${money(gain)}</b> vs. the typical search-heavy plan.`;
+  else v.innerHTML= ms<mo ? `Search is flattening: its next dollar returns $${ms.toFixed(2)}, while social returns $${mo.toFixed(2)}. <b>Move budget toward social</b>, even though search has the higher <em>average</em> ROAS.` : `Now social is saturating. <b>Move some budget back to search.</b>`;
+}
+split.oninput=updCurve;
+document.getElementById('optimize').onclick=()=>{
+  const start=+split.value,end=bestS,t1=performance.now();
+  (function step(ts){const p=Math.min(1,(ts-t1)/900),e=1-Math.pow(1-p,3);split.value=Math.round(start+(end-start)*e);updCurve();if(p<1)requestAnimationFrame(step)})(t1);
+};
+updCurve();
+
+// init
+let initial='A';try{initial=localStorage.getItem('dir')||'A'}catch(e){}
+show(initial);
+</script>
+</body>
+</html>

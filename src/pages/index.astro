@@ -1,0 +1,90 @@
+---
+import BookParts from '../components/BookParts.astro';
+import EssayList from '../components/EssayList.astro';
+import FeaturedExplainer from '../components/FeaturedExplainer.astro';
+import Subscribe from '../components/Subscribe.astro';
+import TrackGrid from '../components/TrackGrid.astro';
+import { SITE } from '../consts';
+import { getEssays } from '../data/essays';
+import Base from '../layouts/Base.astro';
+
+const essays = await getEssays();
+const featured = essays.find((e) => e.data.featured) ?? essays.find((e) => e.data.format === 'interactive');
+const recent = essays.slice(0, 6);
+---
+
+<Base>
+	<div class="wrap">
+		<section class="hero">
+			<div>
+				<div class="eyebrow">A working notebook by {SITE.author} · {SITE.authorRole}</div>
+				<h1>Agencies aren’t dying. They’re being <span class="hl">re-engineered.</span></h1>
+				<p class="dek">Practical notes on AI, automation, measurement and leadership, from someone who builds the systems and still answers to clients every week.</p>
+			</div>
+			<Subscribe id="subscribe" />
+		</section>
+
+		{
+			featured && (
+				<section class="section">
+					<div class="section-head"><h2>Featured explainer</h2><span>Interactive</span></div>
+					<FeaturedExplainer essay={featured} />
+				</section>
+			)
+		}
+
+		<section class="section">
+			<div class="section-head"><h2>Where are you stuck?</h2><span>Pick one to filter ↓</span></div>
+			<TrackGrid essays={essays} filter />
+		</section>
+
+		<section class="section">
+			<div class="section-head"><h2>Recent</h2><a href="/essays/">All essays →</a></div>
+			<EssayList essays={recent} />
+		</section>
+
+		<section class="section book">
+			<div>
+				<div class="eyebrow">Written in public</div>
+				<h2 class="bh">The book, one essay at a time.</h2>
+				<p>Every essay here is a draft chapter of <em>Engineering the Modern Agency</em>. Subscribers read chapters first and help shape the final book.</p>
+				<a href="/book/">The table of contents →</a>
+			</div>
+			<BookParts essays={essays} />
+		</section>
+
+		<section class="section work">
+			<div class="section-head"><h2>Go deeper</h2><a href="/work/">Everything →</a></div>
+			<div class="offers">
+				<a class="offer main" href="/work/#cohort"><small>Cohort · for agency leaders</small><h3>The AI-Ready Agency</h3><p>Four weeks with a small group of agency owners, rebuilding one real workflow with AI, evals and measurement.</p><span>Join the waitlist →</span></a>
+				<a class="offer" href="/work/#toolkits"><small>Toolkits</small><h3>Templates that do the work</h3><p>Geo-test planner, AI eval kit, MMM readiness check. The spreadsheets behind the essays.</p><span>See toolkits →</span></a>
+				<a class="offer" href="/work/#workshops"><small>For teams &amp; events</small><h3>Workshops &amp; speaking</h3><p>Half-day working sessions for agency teams, associations and conferences.</p><span>Ask about dates →</span></a>
+			</div>
+		</section>
+	</div>
+</Base>
+
+<style>
+	.hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; padding: 76px 0 60px; align-items: end; border-bottom: 1px solid var(--s2); }
+	h1 { font: 500 clamp(42px, 5.6vw, 70px)/1 var(--serif); letter-spacing: -0.025em; margin: 16px 0 22px; }
+	h1 .hl { font-style: italic; white-space: nowrap; }
+	.dek { font: 20px/1.5 var(--serif); color: var(--s4); margin: 0; max-width: 560px; }
+	.book { display: grid; grid-template-columns: 1fr 1.5fr; gap: 48px; }
+	.bh { font: 500 34px/1.1 var(--serif); margin: 10px 0 14px; }
+	.book p { font: 17px/1.55 var(--serif); color: var(--s4); }
+	.book a { font: 500 14px var(--sans); }
+	.work { border-bottom: 0; }
+	.offers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+	.offer { border: 1px solid var(--s2); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 8px; text-decoration: none; transition: transform 0.2s; }
+	.offer:hover { transform: translateY(-3px); }
+	.offer.main { background: var(--fg); color: var(--on); border-color: var(--fg); }
+	.offer small { font: 500 11px var(--mono); opacity: 0.6; }
+	.offer h3 { font: 500 23px/1.2 var(--serif); margin: 4px 0; }
+	.offer p { font: 14.5px/1.5 var(--sans); opacity: 0.75; margin: 0 0 8px; }
+	.offer span { margin-top: auto; font: 600 14px var(--sans); }
+	.offer.main span { background: linear-gradient(transparent 60%, var(--acc) 60%); color: var(--on); align-self: flex-start; }
+	@media (max-width: 860px) {
+		.hero, .book { grid-template-columns: 1fr; gap: 28px; padding-top: 44px; }
+		.offers { grid-template-columns: 1fr; }
+	}
+</style>

@@ -1,0 +1,18 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs & env
+npm-debug.log*
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Superset workspace artifacts
+.superset/config.local.json
+.superset/.port
+.superset/.run.pid

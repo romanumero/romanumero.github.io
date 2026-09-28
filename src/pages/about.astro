@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import damon from '../assets/damon.jpg';
+import { SITE } from '../consts';
+import Base from '../layouts/Base.astro';
+
+const investments = [
+	{ name: 'RXA', url: 'https://rxa.io', note: 'Data analytics and AI consulting. Acquired.' },
+	{ name: 'Pocketnest', url: 'https://pocketnest.com', note: 'Financial wellness platform with personalized planning and education. Acquired.' },
+];
+---
+
+<Base title="About" description="Damon Henry: founder of KORTX, engineer, angel investor.">
+	<div class="wrap col">
+		<div class="intro">
+			<Image src={damon} alt="Damon Henry" width={176} height={176} class="photo" loading="eager" />
+			<div>
+				<div class="eyebrow">About</div>
+				<h1>I build the systems <span class="hl">agencies will run on.</span></h1>
+			</div>
+		</div>
+
+		<div class="prose">
+			<p>I’m Damon Henry, founder and CEO of <a href="https://www.kortx.io">KORTX</a>. Since 2014 we’ve worked with more than 350 agencies and managed more than $300 million in media. KORTX works as an <em>agency API</em>: a layer agencies plug into for measurement, operations and AI, instead of building it all themselves.</p>
+			<p>I’m an engineer first. I still build the systems, and this site is where I write down what I learn doing it: what works, what doesn’t, and what I got wrong. No hype. Every essay is a draft chapter of a book, <a href="/book/"><em>Engineering the Modern Agency</em></a>.</p>
+			<p>I didn’t take the straight path here. I got kicked out of public school, and a basketball coach taught me that life is mostly what you make of it. <a href="/essays/from-imposter-to-leader/">That story is here.</a></p>
+			<p>I’m also an angel investor. Two of my portfolio companies have been acquired. For the full résumé, see <a href={SITE.social.linkedin}>LinkedIn</a>.</p>
+			<p>Away from work I’m a husband and a dad of two, which mostly means sitting in the stands at my kids’ games. When I get time of my own, it goes to golf, the boat or a snowboard.</p>
+		</div>
+
+		<h2>Investments</h2>
+		<ul class="inv">
+			{investments.map((i) => <li><a href={i.url}>{i.name}</a><span>{i.note}</span></li>)}
+		</ul>
+
+		<h2>Elsewhere</h2>
+		<p class="else">
+			<a href={SITE.social.linkedin}>LinkedIn</a> · <a href={SITE.social.x}>X</a>{SITE.social.youtube && <> · <a href={SITE.social.youtube}>YouTube</a></>} · <a href="/work/">Workshops &amp; speaking</a>
+		</p>
+	</div>
+</Base>
+
+<style>
+	.col { max-width: 720px; padding-top: 64px; padding-bottom: 64px; }
+	.intro { display: grid; grid-template-columns: 176px 1fr; gap: 32px; align-items: center; margin-bottom: 32px; }
+	.intro :global(.photo) { width: 176px; height: 176px; border-radius: 50%; object-fit: cover; filter: grayscale(1) contrast(1.05); box-shadow: 0 0 0 6px var(--acc); }
+	h1 { font: 500 clamp(32px, 4.2vw, 44px)/1.08 var(--serif); letter-spacing: -0.02em; margin: 12px 0 0; text-wrap: balance; }
+	.prose p { font: 20px/1.65 var(--serif); margin: 0 0 20px; }
+	.prose a { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+	h2 { font: 600 13px var(--display); letter-spacing: 0.14em; text-transform: uppercase; margin: 48px 0 12px; }
+	.inv { list-style: none; padding: 0; margin: 0; }
+	.inv li { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--s2); font: 16px/1.5 var(--sans); }
+	.inv a { font: 500 19px var(--serif); }
+	.inv span { color: var(--s4); }
+	.else { font: 16px var(--sans); color: var(--s4); }
+	@media (max-width: 600px) {
+		.intro { grid-template-columns: 1fr; gap: 20px; }
+		.inv li { grid-template-columns: 1fr; gap: 2px; }
+		.prose p { font-size: 18px; }
+	}
+</style>

@@ -1,0 +1,9 @@
+---
+interface Props { date: Date; style?: 'dots' | 'long' }
+const { date, style = 'long' } = Astro.props;
+const text =
+	style === 'dots'
+		? date.toISOString().slice(0, 10).replaceAll('-', ' · ')
+		: date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<time datetime={date.toISOString()}>{text}</time>

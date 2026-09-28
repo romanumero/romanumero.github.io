@@ -1,0 +1,15 @@
+---
+import { render } from 'astro:content';
+import { getEssays, type Essay } from '../../data/essays';
+import EssayLayout from '../../layouts/Essay.astro';
+
+export async function getStaticPaths() {
+	const essays = await getEssays();
+	return essays.map((essay) => ({ params: { slug: essay.id }, props: { essay } }));
+}
+
+const { essay } = Astro.props as { essay: Essay };
+const { Content } = await render(essay);
+---
+
+<EssayLayout essay={essay}><Content /></EssayLayout>

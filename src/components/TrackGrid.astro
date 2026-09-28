@@ -1,0 +1,54 @@
+---
+import { TRACKS } from '../data/tracks';
+import type { Essay } from '../data/essays';
+
+interface Props { essays: Essay[]; /** filter an [data-essay-list] on the page instead of linking */ filter?: boolean }
+const { essays, filter = false } = Astro.props;
+const count = (id: string) => essays.filter((e) => e.data.track === id).length;
+---
+
+<div class="tracks" data-filter={filter ? '' : undefined}>
+	{
+		TRACKS.map((t, i) =>
+			filter ? (
+				<button class="track" data-track={t.id} aria-pressed="false">
+					<small>{String(i + 1).padStart(2, '0')} · {t.label}</small>
+					<b>{t.question}</b>
+					<span>{count(t.id)} {count(t.id) === 1 ? 'essay' : 'essays'}</span>
+				</button>
+			) : (
+				<a class="track" href={`/tracks/${t.id}/`}>
+					<small>{String(i + 1).padStart(2, '0')} · {t.label}</small>
+					<b>{t.question}</b>
+					<span>{count(t.id)} {count(t.id) === 1 ? 'essay' : 'essays'}</span>
+				</a>
+			),
+		)
+	}
+</div>
+
+<script>
+	for (const grid of document.querySelectorAll<HTMLElement>('.tracks[data-filter]')) {
+		const buttons = [...grid.querySelectorAll<HTMLButtonElement>('button.track')];
+		const items = [...document.querySelectorAll<HTMLElement>('[data-essay-list] li')];
+		for (const b of buttons) {
+			b.addEventListener('click', () => {
+				const on = b.getAttribute('aria-pressed') !== 'true';
+				buttons.forEach((x) => x.setAttribute('aria-pressed', 'false'));
+				if (on) b.setAttribute('aria-pressed', 'true');
+				items.forEach((li) => li.classList.toggle('dim', on && li.dataset.track !== b.dataset.track));
+			});
+		}
+	}
+</script>
+
+<style>
+	.tracks { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--s2); border-left: 1px solid var(--s2); }
+	.track { border: 0; border-right: 1px solid var(--s2); border-bottom: 1px solid var(--s2); background: transparent; padding: 18px; text-align: left; cursor: pointer; text-decoration: none; transition: background 0.2s; display: block; }
+	.track:hover { background: var(--s1); }
+	.track[aria-pressed='true'] { background: var(--fg); color: var(--on); }
+	small { font: 500 11px var(--mono); opacity: 0.6; }
+	b { display: block; font: 500 19px/1.25 var(--serif); margin: 6px 0 4px; }
+	span { font: 12px var(--sans); opacity: 0.6; }
+	@media (max-width: 860px) { .tracks { grid-template-columns: 1fr 1fr; } b { font-size: 17px; } }
+</style>

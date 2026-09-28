@@ -1,0 +1,57 @@
+---
+import type { Essay } from '../data/essays';
+import { trackById } from '../data/tracks';
+
+interface Props { essay: Essay }
+const { essay } = Astro.props;
+const magic = [
+	['M', 'Metrics', 100],
+	['A', 'Analysis', 82],
+	['G', 'Gains', 64],
+	['I', 'Implementation', 46],
+	['C', 'Consumer', 30],
+] as const;
+---
+
+<a class="feature" href={`/essays/${essay.id}/`}>
+	<div>
+		<div class="eyebrow">{trackById(essay.data.track).question}</div>
+		<h3>{essay.data.title}</h3>
+		<p>{essay.data.description}</p>
+		<span class="btn acc">Try it →</span>
+	</div>
+	{essay.id === 'magic-framework' ? (
+	<div class="bars magic" aria-hidden="true">
+		{magic.map(([k, name, w], i) => (
+			<div><span><b class="k">{k}</b> {name}</span><span class="t"><i style={`width:${w}%;animation-delay:${i * 0.3}s`} class={i === 0 ? 'top' : ''}></i></span><b>P{i + 1}</b></div>
+		))}
+	</div>
+	) : (
+	<div class="bars" aria-hidden="true">
+		<div><span>Meta</span><span class="t"><i style="width:46%"></i></span><b>620</b></div>
+		<div><span>Google</span><span class="t"><i style="width:40%;animation-delay:.4s"></i></span><b>540</b></div>
+		<div><span>TikTok</span><span class="t"><i style="width:13%;animation-delay:.8s"></i></span><b>180</b></div>
+		<div class="sum"><span>Claimed</span><span class="t"><i style="width:100%"></i></span><b>1,340</b></div>
+		<div class="real"><span>Actual</span><span class="t"><i style="width:74.6%"></i></span><b>1,000</b></div>
+	</div>
+	)}
+</a>
+
+<style>
+	.feature { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: center; background: var(--fg); color: var(--on); border-radius: 20px; padding: 40px; text-decoration: none; }
+	.eyebrow { color: color-mix(in srgb, var(--on) 60%, transparent); }
+	h3 { font: 500 36px/1.08 var(--serif); margin: 12px 0; }
+	p { font: 16px/1.55 var(--sans); opacity: 0.75; margin: 0 0 20px; }
+	.bars { display: flex; flex-direction: column; gap: 10px; font: 13px var(--sans); }
+	.bars div { display: grid; grid-template-columns: 90px 1fr 48px; gap: 12px; align-items: center; }
+	.t { height: 22px; border-radius: 4px; background: color-mix(in srgb, var(--on) 12%, transparent); position: relative; overflow: hidden; }
+	.t i { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: color-mix(in srgb, var(--on) 45%, transparent); animation: breathe 3.2s ease-in-out infinite alternate; }
+	.sum .t i { background: var(--acc); animation: none; }
+	.real .t i { background: transparent; box-shadow: inset 0 0 0 2px var(--on); animation: none; }
+	b { font: 600 13px var(--mono); text-align: right; }
+	.magic div { grid-template-columns: 150px 1fr 36px; }
+	.magic .k { font: 700 18px var(--display); text-align: left; margin-right: 6px; }
+	.magic .t i.top { background: var(--acc); animation: none; }
+	@keyframes breathe { from { opacity: 0.7; } to { opacity: 1; } }
+	@media (max-width: 860px) { .feature { grid-template-columns: 1fr; padding: 26px; gap: 28px; } h3 { font-size: 30px; } }
+</style>

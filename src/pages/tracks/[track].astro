@@ -1,0 +1,33 @@
+---
+import EssayList from '../../components/EssayList.astro';
+import { getEssays } from '../../data/essays';
+import { TRACKS, type TrackId } from '../../data/tracks';
+import Base from '../../layouts/Base.astro';
+
+export function getStaticPaths() {
+	return TRACKS.map((t) => ({ params: { track: t.id }, props: { track: t } }));
+}
+
+const { track } = Astro.props as { track: (typeof TRACKS)[number] };
+const essays = (await getEssays()).filter((e) => e.data.track === (track.id as TrackId));
+---
+
+<Base title={track.question} description={`Essays on ${track.label}: ${track.question}`}>
+	<div class="wrap">
+		<header class="head">
+			<div class="eyebrow">Track · {track.label}</div>
+			<h1>{track.question}</h1>
+		</header>
+		<section class="section" style="border-bottom:0">
+			{essays.length ? <EssayList essays={essays} /> : <p class="empty">Nothing here yet. It’s on the roadmap. <a href="/#subscribe">Subscribe</a> to get it first.</p>}
+		</section>
+		<p class="all"><a href="/essays/">← All essays</a></p>
+	</div>
+</Base>
+
+<style>
+	.head { padding: 64px 0 8px; }
+	h1 { font: 500 clamp(36px, 5vw, 54px)/1.05 var(--serif); letter-spacing: -0.02em; margin: 12px 0; }
+	.empty, .all { font: 16px var(--sans); color: var(--s4); }
+	.all { padding-bottom: 40px; }
+</style>

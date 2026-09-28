@@ -1,0 +1,78 @@
+---
+import { SITE } from '../consts';
+
+interface Props {
+	heading?: string;
+	blurb?: string;
+	/** Which Kit form (and therefore list/tag) this signup feeds. */
+	form?: keyof typeof SITE.kitForms;
+	cta?: string;
+	id?: string;
+}
+const {
+	heading = 'One useful email, once a month',
+	blurb = 'A new chapter draft, one tool worth trying, one thing I got wrong.',
+	form = 'newsletter',
+	cta = 'Join',
+	id,
+} = Astro.props;
+const formId = SITE.kitForms[form];
+const action = formId ? `https://app.kit.com/forms/${formId}/subscriptions` : '';
+---
+
+<div class="sub" id={id}>
+	<h3>{heading}</h3>
+	<p>{blurb}</p>
+	{
+		action ? (
+			<form action={action} method="post" data-kit-form={form}>
+				<label class="sr-only" for={`email-${form}`}>Email</label>
+				<input id={`email-${form}`} type="email" name="email_address" placeholder="you@agency.com" autocomplete="email" required />
+				<button class="btn acc">{cta}</button>
+				<p class="err" role="alert" hidden></p>
+			</form>
+		) : (
+			<a class="btn acc" href={`mailto:${SITE.contactEmail}?subject=${encodeURIComponent(form === 'newsletter' ? 'Subscribe' : `Waitlist: ${form}`)}`}>{cta}</a>
+		)
+	}
+	<small>Subscribers read book chapters first.</small>
+</div>
+
+<script>
+	// Submit to Kit in the background, then show this site's thanks page (works on any host,
+	// including localhost). Falls back to a normal form post if anything goes wrong.
+	for (const form of document.querySelectorAll<HTMLFormElement>('form[data-kit-form]')) {
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const button = form.querySelector('button')!;
+			const err = form.querySelector<HTMLElement>('.err')!;
+			button.disabled = true;
+			err.hidden = true;
+			try {
+				const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+				const data = await res.json().catch(() => ({}));
+				// Kit answers {status:'failed', errors:{messages:[…]}} on bad input; anything else is a signup.
+				if (res.ok && data.status !== 'failed') {
+					location.href = `/thanks/?list=${encodeURIComponent(form.dataset.kitForm ?? 'newsletter')}`;
+					return;
+				}
+				err.textContent = data.errors?.messages?.join(' ') || 'Something went wrong. Please try again.';
+				err.hidden = false;
+				button.disabled = false;
+			} catch {
+				form.submit();
+			}
+		});
+	}
+</script>
+
+<style>
+	.sub { border: 1px solid var(--s2); border-radius: 14px; padding: 22px; background: color-mix(in srgb, var(--bg) 70%, var(--s1)); }
+	h3 { font: 600 17px var(--display); margin: 0 0 6px; }
+	p { font: 15px/1.5 var(--sans); color: var(--s4); margin: 0 0 14px; }
+	form { display: flex; gap: 8px; flex-wrap: wrap; }
+	.err { flex-basis: 100%; margin: 4px 0 0; font: 13px var(--sans); color: #b3261e; }
+	button:disabled { opacity: 0.6; cursor: wait; }
+	input { flex: 1; min-width: 0; border: 1px solid var(--s2); border-radius: 8px; padding: 10px 12px; background: var(--bg); }
+	small { display: block; margin-top: 10px; font: 12px var(--sans); color: var(--s3); }
+</style>

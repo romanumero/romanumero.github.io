@@ -1,0 +1,17 @@
+---
+// Usage in MDX: <Say instead="Facebook had a 2.5x ROAS.">Our geo test showed…</Say>
+interface Props { instead: string }
+const { instead } = Astro.props;
+---
+<div class="say">
+	<small>Instead of</small><s>“{instead}”</s>
+	<small class="gap">Say</small>
+	<p>“<slot />”</p>
+</div>
+<style>
+	.say { border-top: 2px solid var(--fg); border-bottom: 2px solid var(--fg); padding: 24px 0; margin: 36px 0; }
+	small { display: block; font: 700 11px var(--display); letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 6px; color: var(--s3); }
+	.gap { margin-top: 18px; }
+	s { font: 500 19px var(--display); color: var(--s3); }
+	p { font: 600 23px/1.35 var(--display) !important; margin: 0 !important; }
+</style>

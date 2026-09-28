@@ -1,0 +1,176 @@
+---
+title: "Every Platform Grades Its Own Homework. Here's How to Check It."
+description: "Platforms now automate the buying. Proving what worked is still up to you. The MAGIC framework: a practical path from attribution to incrementality testing and calibrated marketing mix modeling."
+date: 2026-09-28
+track: analytics
+format: interactive
+part: 2
+featured: true
+---
+
+import MagicFramework from '../../components/explainers/MagicFramework.tsx';
+import PlatformClaims from '../../components/explainers/PlatformClaims.tsx';
+import LiftTest from '../../components/explainers/LiftTest.tsx';
+import IncrementalityFactor from '../../components/explainers/IncrementalityFactor.tsx';
+import BudgetSplit from '../../components/explainers/BudgetSplit.tsx';
+import CalibrationRanges from '../../components/explainers/CalibrationRanges.tsx';
+import Say from '../../components/Say.astro';
+import Monday from '../../components/Monday.astro';
+import LinkedInPost from '../../components/LinkedInPost.astro';
+
+Since 2014, KORTX has worked with more than 350 agencies and managed over $300 million in media. In that time I've sat in some version of the same meeting more times than I can count.
+
+It's the monthly review. The agency walks through the dashboards: Meta says it drove 620 sales, Google says 540, TikTok says 180. Everyone's numbers look great. Then someone from finance opens the store report and says the business had 1,000 orders that month. Not 1,340. The room gets quiet, because nobody can explain where the other 340 came from.
+
+Nobody lied. Meta, Google, Amazon and TikTok increasingly ask for just three things: a product, a budget and a goal. The machines do the buying. But <mark>each platform grades its own homework</mark>, and they all claim credit for many of the same sales.
+
+That leaves three questions only independent measurement can answer:
+
+1. What is actually working across all our channels?
+2. What is the true incremental impact of each channel?
+3. Where is the next dollar best spent, and why?
+
+MAGIC is how I answer them. It isn't a tool. It's an order of trust.
+
+## Trust the evidence closest to profit
+
+MAGIC ranks five kinds of evidence. When they disagree, and they will, the one higher on the list wins.
+
+<MagicFramework client:visible />
+
+Most agencies run this upside down. They start with the platform dashboard (Implementation), argue about attribution models, and never get to the question the client's CFO is asking: *did the business grow profitably?*
+
+## The measurement ladder
+
+You don't get to calibrated MMM in one jump. It's four stages, and each one answers a harder question than the last:
+
+| Stage | Method | The question it answers | MAGIC |
+|---|---|---|---|
+| 1 | Attribution | What did customers touch? | I |
+| 2 | Incrementality | What did media cause? | A |
+| 3 | Marketing mix model | How should we split the whole budget? | G |
+| 4 | Calibrated MMM | How confident can we be in that plan? | G + A |
+
+Notice the ladder climbs in a different order than MAGIC ranks trust. <mark>Trust order isn't work order.</mark> You fix Implementation first because everything else is built on it, even though it's the evidence you trust least. Metrics (M) is the scoreboard the whole way up, and Consumer insight (C) runs alongside.
+
+## Stage 1: Attribution shows what customers touched
+
+Go back to that meeting. Adding up what every platform claims is the first step, and it's usually the most eye-opening one. Try it:
+
+<PlatformClaims client:visible />
+
+> Attribution shows what customers touched, not what media caused.
+
+Each platform counts with its own rules, so the claims overlap. Last-click models over-credit brand search and retargeting and undervalue the video and social that created the demand in the first place.
+
+Attribution is still useful for daily optimization, but only on a trustworthy foundation. Six steps get you there:
+
+1. **Define the business KPI.** Agree on the one or two numbers leadership cares about most.
+2. **Track server-side.** Conversions API, Enhanced Conversions and Universal Pixel survive privacy changes.
+3. **Standardize naming.** Consistent campaign, channel, region and UTM naming makes modeling possible later.
+4. **Connect a source of truth.** Reconcile platforms to your own sales data; report blended MER (marketing efficiency ratio: total revenue ÷ total marketing spend) and CAC (customer acquisition cost).
+5. **QA continuously.** Check tag firing and event parameters weekly. Broken tags corrupt everything downstream.
+6. **Ask customers.** A post-purchase "How did you hear about us?" survey adds what clicks miss.
+
+## Stage 2: Incrementality shows what media caused
+
+The cleanest way to know what advertising caused is to run an experiment: turn media on in some markets, hold it out of others that behave the same way, and measure the gap.
+
+<LiftTest client:visible />
+
+The result becomes a number you can use every day: an incrementality factor that converts platform-reported results into what the ads actually caused. Each channel gets its own factor. Meta's says nothing about search.
+
+<IncrementalityFactor client:visible />
+
+There are six ways to run a test, from geo holdouts to budget pulses, and each fits a different question. Getting one right comes down to seven steps: pick a P&L metric, set your risk tolerance, test one thing at a time, build matched markets, run it for 4–8 weeks plus a 2–4 week post-period, never stop early, and report lift with a confidence range.
+
+**Want the full checklist?** The test-type chooser and the step-by-step plan are in the [Geo-Test Planner toolkit →](/work/#toolkits)
+
+## Stage 3: The marketing mix model splits the whole budget
+
+Experiments answer one question at a time. A marketing mix model looks at everything at once: every channel, promotions, seasonality and the demand that would have happened anyway. That last part is usually the humbling one. <mark>Base demand is often the majority of revenue</mark>: sales that would have happened without any paid media. In one illustrative model, it's about two-thirds.
+
+The most useful thing an MMM shows is diminishing returns. Every channel flattens eventually, so the channel with the best *average* return often isn't the best place for the *next* dollar:
+
+<BudgetSplit client:visible />
+
+A reliable MMM needs about two years of weekly data (18 months at minimum), your own sales numbers rather than platform reports, and spend that has actually moved over time. Flat spend can't be measured.
+
+**Is your client ready for one?** The [MMM Readiness Check →](/work/#toolkits) scores it in ten minutes.
+
+**The catch:** MMM finds correlations. When channels always move together, several answers fit the data equally well.
+
+## Stage 4: Calibration keeps every method honest
+
+Stage 4 fixes that catch. Feed your experiment results into the model and the range of plausible answers shrinks until it's narrow enough to act on:
+
+<CalibrationRanges client:visible />
+
+From there it's one loop, where each method checks the others:
+
+1. **Daily: attribution** optimizes campaigns, adjusted by incrementality factors.
+2. **Quarterly: MMM** is refreshed with new data, sets the budget plan and flags the biggest open questions.
+3. **Ongoing: experiments** answer those questions causally, one major channel at a time.
+4. **After every test: check.** Does the model agree with what the experiment found?
+5. **When they disagree, and at least twice a year: recalibrate.** Test results anchor the MMM and update the daily factors.
+
+### Not everyone agrees on how to calibrate
+
+The sharpest pushback I've seen comes from Venkat Raman, a statistician who builds MMMs for a living. His point is worth understanding before you run your first calibration. An MMM has a long memory: ad effects carry over for weeks after the ads run (statisticians call this adstock). A 4–8 week experiment only sees the short-term slice of that effect. Pour a short-term test result straight into the model's starting assumptions (its priors) and you can bias it. He'd rather use experiments to *validate* the model than to *set* it.
+
+<LinkedInPost
+	urn="urn:li:share:7167756099016740865"
+	url="https://www.linkedin.com/posts/venkat-raman-analytics_marketingmixmodeling-statistics-timeseriesforecasting-activity-7167756100052742145-p3cc"
+	author="Venkat Raman"
+	title="MMMs are long memory models"
+/>
+
+The thread under his post is just as useful. Practitioners from Meta and Google point out that tools like Meta's open-source Robyn separate a channel's immediate effect from its carryover, and calibrate only the part the experiment actually measured.
+
+### Where I land: check first, then calibrate
+
+Venkat is right that one short test shouldn't overwrite a model built on two years of data. Meta's Robyn team is right that experiments are the only real proof of cause you'll ever get. So we use both, in that order: <mark>every test checks the model first</mark>. If the model's estimate for that channel falls inside the test's confidence range, the model passed and we leave it alone. If it doesn't, we recalibrate.
+
+In practice, for a typical client, that looks like this:
+
+| What | How often |
+|---|---|
+| Refresh the MMM with new data | Quarterly. A quarter adds about 13 weekly data points; monthly refreshes mostly chase noise. |
+| Check the model against a test | Every time an experiment finishes |
+| Full recalibration | At least twice a year, and after any big change: a 20–30%+ budget shift, a new channel, a new offer or creative strategy, a market shock |
+| Re-test each major channel | Every 6–12 months, rotating one channel per quarter |
+| Trust an incrementality factor | For about 12 months. After that it's stale: platforms, creative and competitors have all moved. |
+
+Those thresholds are judgment calls, not laws. A client spending $50M a year in a fast-moving category should run tighter; a regional client with steady spend can run looser. The principle doesn't change: compare like with like, and let the experiments and the model keep checking each other.
+
+## How long this takes
+
+About 12 months from a messy start to a calibrated MMM: discover and baseline, fix the foundation, run the first tests, build the model, then calibrate and keep running. You don't wait a year for value, though. Within the first quarter you have clean KPIs and blended MER and CAC reporting; within six months, your first real iROAS reads on your largest channels.
+
+After that it becomes an annual rhythm, with a model refresh every quarter and one major test each quarter: a big-channel holdout in Q1, creative tests and budget optimization in Q2, a new-channel test and factor updates in Q3, and holiday measurement with a full recalibration and year-end review in Q4.
+
+## Why this is good news for agencies
+
+For twenty years, a lot of agency value lived in the buying: knowing the platforms, pulling the levers, working the bids. The platforms are automating that away, and they're good at it.
+
+But there's one thing they will never do: tell a client, honestly, what worked. No platform is going to announce that its own numbers are inflated. That job now belongs to whoever is independent enough to say it and skilled enough to prove it.
+
+<mark>The agency that owns measurement owns the client relationship.</mark> It's the one in the room when next year's budget gets set, not the one explaining last month's ROAS. And none of this requires a data science department on day one. It starts with adding up the platform claims and comparing them to real orders.
+
+## Change the sentence
+
+All of this changes one thing your client hears from you every month:
+
+<Say instead="Facebook had a 2.5x ROAS.">Our geo test showed Meta drove $120K in incremental revenue at a CAC 20% below target. We recommend a 15% budget increase.</Say>
+
+Business outcome, then the evidence, then the decision. Every month, in that order.
+
+<Monday>
+
+1. Write down the one or two business numbers your client's leadership actually watches.
+2. Add up last month's platform-reported conversions and compare them with real orders.
+3. Pick the channel you're least sure is working. That's your first test.
+
+</Monday>
+
+*This essay is a draft of Part II of my book,* Engineering the Modern Agency. *Reply to the email or tell me on [LinkedIn](https://www.linkedin.com/in/damonhenry/) what's missing. The figures in the interactive examples are illustrative.*

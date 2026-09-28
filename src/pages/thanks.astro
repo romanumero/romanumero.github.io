@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+// Kit redirects here after signup: /thanks/?list=newsletter|cohort|toolkits
+---
+<Base title="Check your email" description="Confirm your subscription.">
+	<Fragment slot="head"><meta name="robots" content="noindex" /></Fragment>
+	<div class="wrap box">
+		<div class="eyebrow">One more step</div>
+		<h1>Check your email to <span class="hl">confirm.</span></h1>
+		<p data-msg="newsletter">You’re almost on the list. Click the link in the confirmation email and you’ll get the next chapter draft as soon as it’s out.</p>
+		<p data-msg="cohort" hidden>You’re almost on the waitlist for <em>The AI-Ready Agency</em>. Confirm your email and you’ll hear about the first cohort, and founding pricing, before anyone else.</p>
+		<p data-msg="toolkits" hidden>Confirm your email and I’ll let you know the moment each toolkit is ready, with launch pricing for subscribers.</p>
+		<p class="small">Nothing there? Check your promotions or spam folder.</p>
+		<p><a href="/essays/">While you wait, read the essays →</a></p>
+	</div>
+</Base>
+
+<script>
+	const list = new URLSearchParams(location.search).get('list');
+	if (list && document.querySelector(`[data-msg="${CSS.escape(list)}"]`)) {
+		document.querySelectorAll<HTMLElement>('[data-msg]').forEach((p) => (p.hidden = p.dataset.msg !== list));
+	}
+</script>
+
+<style>
+	.box { max-width: 680px; padding-top: 96px; padding-bottom: 96px; }
+	h1 { font: 500 clamp(36px, 5vw, 52px)/1.05 var(--serif); letter-spacing: -0.02em; margin: 12px 0 18px; }
+	p { font: 19px/1.55 var(--serif); color: var(--s4); }
+	.small { font: 15px var(--sans); color: var(--s3); }
+	a { font: 500 15px var(--sans); color: var(--fg); }
+</style>

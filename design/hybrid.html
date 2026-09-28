@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en" data-palette="ink">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hybrid Monotone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* One hue, five steps. Everything — text, rules, charts, buttons — comes from these. */
+:root,[data-palette="ink"]{ --bg:#f3f1ed; --s1:#e7e4de; --s2:#c9c4bb; --s3:#8a857c; --s4:#4d4a45; --fg:#1b1a18; --on:#f3f1ed; }
+[data-palette="navy"]     { --bg:#eef1f6; --s1:#dde3ee; --s2:#b3bfd6; --s3:#6f7fa3; --s4:#34466e; --fg:#13203d; --on:#eef1f6; }
+[data-palette="evergreen"]{ --bg:#eff2ef; --s1:#dfe6e0; --s2:#b5c4b8; --s3:#6d8573; --s4:#35503d; --fg:#15291c; --on:#eff2ef; }
+[data-palette="night"]    { --bg:#121417; --s1:#1d2025; --s2:#343941; --s3:#7a818c; --s4:#b9bec6; --fg:#eceef1; --on:#121417; }
+:root{
+  --display:"Space Grotesk",system-ui,sans-serif; --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --serif:"Newsreader",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--serif);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+
+/* palette switcher (mockup-only) */
+.switch{position:sticky;top:0;z-index:5;background:var(--fg);color:var(--on);font:500 13px var(--sans)}
+.switch .wrap{display:flex;gap:10px;align-items:center;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+.switch b{font:600 11px var(--display);letter-spacing:.14em;text-transform:uppercase;margin-right:6px;opacity:.7}
+.switch button{border:1px solid color-mix(in srgb,var(--on) 35%,transparent);background:transparent;color:var(--on);border-radius:999px;padding:5px 12px 5px 8px;cursor:pointer;display:flex;gap:7px;align-items:center}
+.switch button[aria-pressed="true"]{background:var(--on);color:var(--fg)}
+.switch i{width:14px;height:14px;border-radius:50%;display:block;border:1px solid rgba(128,128,128,.4)}
+.switch .sep{flex:1}
+
+/* shared */
+.eyebrow{font:600 12px var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--s3)}
+.btn{font:600 14px var(--sans);background:var(--fg);color:var(--on);border:0;border-radius:8px;padding:11px 18px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+.btn.line{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 1.5px var(--fg)}
+.pagelabel{font:600 11px var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--s3);text-align:center;padding:40px 0 0;border-top:6px double var(--s2);margin-top:40px}
+
+nav.top{display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:1px solid var(--s2);gap:16px}
+.mark{display:flex;align-items:center;gap:10px;font:700 16px var(--display);text-decoration:none;letter-spacing:-.01em}
+.mark .g{display:flex;gap:3px;align-items:flex-end;height:18px}
+.mark .g i{width:4px;border-radius:1px;background:var(--fg);display:block}
+.mark .g i:nth-child(1){height:5px;background:var(--s2)}.mark .g i:nth-child(2){height:9px;background:var(--s3)}.mark .g i:nth-child(3){height:13px;background:var(--s4)}.mark .g i:nth-child(4){height:18px}
+nav.top ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font:500 14px var(--sans);color:var(--s4)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:56px;padding:76px 0 60px;align-items:end;border-bottom:1px solid var(--s2)}
+h1.big{font:500 clamp(42px,5.6vw,70px)/1.0 var(--serif);letter-spacing:-.025em;margin:16px 0 22px}
+h1.big i{color:var(--s3)}
+.dek{font:400 20px/1.5 var(--serif);color:var(--s4);margin:0;max-width:560px}
+.sub{border:1px solid var(--s2);border-radius:14px;padding:22px;background:color-mix(in srgb,var(--bg) 70%,var(--s1))}
+.sub h4{font:600 17px var(--display);margin:0 0 6px}
+.sub p{font:15px/1.5 var(--sans);color:var(--s4);margin:0 0 14px}
+.sub form{display:flex;gap:8px}
+.sub input{flex:1;min-width:0;border:1px solid var(--s2);border-radius:8px;padding:10px 12px;background:var(--bg)}
+.sub small{display:block;margin-top:10px;font:12px var(--sans);color:var(--s3)}
+
+section.s{padding:52px 0;border-bottom:1px solid var(--s2)}
+.sh{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.sh h3{font:600 13px var(--display);letter-spacing:.14em;text-transform:uppercase;margin:0}
+.sh a,.sh span{font:500 14px var(--sans);color:var(--s3)}
+
+/* featured interactive (B's signature, mono) */
+.feature{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center;background:var(--fg);color:var(--on);border-radius:20px;padding:40px;text-decoration:none}
+.feature .eyebrow{color:color-mix(in srgb,var(--on) 60%,transparent)}
+.feature h4{font:500 36px/1.08 var(--serif);margin:12px 0 12px}
+.feature p{font:16px/1.55 var(--sans);opacity:.75;margin:0 0 20px}
+.feature .btn{background:var(--on);color:var(--fg)}
+.fbars{display:flex;flex-direction:column;gap:10px;font:13px var(--sans)}
+.fbars div{display:grid;grid-template-columns:120px 1fr 48px;gap:12px;align-items:center}
+.fbars span.t{height:22px;border-radius:4px;background:color-mix(in srgb,var(--on) 12%,transparent);position:relative;overflow:hidden}
+.fbars span.t i{position:absolute;inset:0 auto 0 0;border-radius:4px;background:color-mix(in srgb,var(--on) 45%,transparent);animation:breathe 3.2s ease-in-out infinite alternate}
+.fbars .sum span.t i{background:var(--on)}
+.fbars .real span.t i{background:transparent;box-shadow:inset 0 0 0 2px var(--on);animation:none}
+.fbars b{font:600 13px var(--mono);text-align:right}
+@keyframes breathe{from{filter:brightness(.8)}to{filter:brightness(1.15)}}
+
+/* tracks — problem-named */
+.tracks{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--s2);border-left:1px solid var(--s2)}
+.track{border:0;border-right:1px solid var(--s2);border-bottom:1px solid var(--s2);background:transparent;padding:18px;text-align:left;cursor:pointer;transition:background .2s}
+.track:hover{background:var(--s1)}
+.track[aria-pressed="true"]{background:var(--fg);color:var(--on)}
+.track small{font:500 11px var(--mono);opacity:.6}
+.track b{display:block;font:500 19px/1.25 var(--serif);margin:6px 0 4px}
+.track span{font:12px var(--sans);opacity:.6}
+
+/* essay list */
+.list{list-style:none;margin:0;padding:0}
+.list li{display:grid;grid-template-columns:110px 1fr auto;gap:20px;padding:17px 0;border-top:1px solid var(--s2);align-items:baseline;transition:opacity .3s}
+.list li:first-child{border-top:0}
+.list li.dim{opacity:.2}
+.list time{font:13px var(--mono);color:var(--s3)}
+.list a{font:500 21px/1.3 var(--serif);text-decoration:none}
+.list a:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.fmt{font:500 12px var(--sans);color:var(--s4);border:1px solid var(--s2);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.fmt.x{background:var(--fg);color:var(--on);border-color:var(--fg)}
+
+/* book */
+.book{display:grid;grid-template-columns:1fr 1.5fr;gap:48px}
+.book h4{font:500 34px/1.1 var(--serif);margin:10px 0 14px}
+.book p{font:17px/1.55 var(--serif);color:var(--s4)}
+.parts{list-style:none;margin:0;padding:0}
+.parts li{display:grid;grid-template-columns:40px 1fr 120px;gap:14px;padding:14px 0;border-top:1px solid var(--s2);align-items:center}
+.parts .r{font:600 15px var(--display);color:var(--s3)}
+.parts b{font:500 19px var(--serif);display:block}
+.parts span{font:14px var(--sans);color:var(--s3)}
+.prog{height:6px;background:var(--s1);border-radius:9px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--fg)}
+
+/* work with me */
+.work{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.offer{border:1px solid var(--s2);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px}
+.offer.main{background:var(--fg);color:var(--on);border-color:var(--fg)}
+.offer small{font:500 11px var(--mono);opacity:.6}
+.offer h5{font:500 23px/1.2 var(--serif);margin:4px 0}
+.offer p{font:14.5px/1.5 var(--sans);opacity:.75;margin:0 0 8px}
+.offer a{margin-top:auto;font:600 14px var(--sans)}
+.intake{margin-top:24px;border:1px solid var(--s2);border-radius:14px;padding:24px;display:none}
+.intake.on{display:block}
+.intake h5{font:600 17px var(--display);margin:0 0 4px}
+.intake > p{font:14px var(--sans);color:var(--s3);margin:0 0 16px}
+.intake form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.intake label{font:500 13px var(--sans);display:flex;flex-direction:column;gap:6px;color:var(--s4)}
+.intake label.full{grid-column:1 / -1}
+.intake input,.intake select,.intake textarea{border:1px solid var(--s2);border-radius:8px;padding:10px 12px;background:var(--bg);color:var(--fg)}
+.intake textarea{min-height:80px;resize:vertical}
+footer{padding:32px 0;font:14px var(--sans);color:var(--s3);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- article ---------- */
+.col{max-width:680px;margin:0 auto;padding:56px 24px 80px}
+.col h1{font:500 clamp(36px,5vw,54px)/1.05 var(--serif);letter-spacing:-.02em;margin:14px 0 16px}
+.col .by{display:flex;align-items:center;gap:12px;font:14px var(--sans);color:var(--s3);margin:24px 0 36px;padding-bottom:26px;border-bottom:1px solid var(--s2)}
+.av{width:40px;height:40px;border-radius:50%;background:var(--fg);color:var(--on);display:grid;place-items:center;font:600 14px var(--display)}
+.col p{font:20px/1.65 var(--serif);margin:0 0 22px}
+.col p.drop::first-letter{float:left;font:500 70px/.82 var(--serif);margin:6px 10px 0 0}
+blockquote{margin:40px 0;padding:0 0 0 24px;border-left:3px solid var(--fg);font:italic 400 28px/1.35 var(--serif)}
+.lab{border:1.5px solid var(--fg);border-radius:18px;padding:26px;margin:36px -40px}
+.lab-h{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.lab-h b{font:700 12px var(--display);letter-spacing:.14em;text-transform:uppercase}
+.lab-h span{font:12px var(--mono);color:var(--s3)}
+.lab h4{font:600 22px/1.2 var(--display);margin:6px 0 18px}
+.row{display:grid;grid-template-columns:130px 1fr 64px;gap:14px;align-items:center;margin:9px 0;font:14px var(--sans)}
+.row .t{height:26px;background:var(--s1);border-radius:5px;position:relative;overflow:hidden}
+.row .t i{position:absolute;inset:0 auto 0 0;background:var(--s3);border-radius:5px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.row.sum{font-weight:600}.row.sum .t i{background:var(--fg)}
+.row.real{font-weight:600}.row.real .t i{background:repeating-linear-gradient(135deg,var(--fg) 0 2px,transparent 2px 7px);box-shadow:inset 0 0 0 2px var(--fg)}
+.row output{font:600 14px var(--mono);text-align:right}
+.row input{grid-column:2 / 3;width:100%;accent-color:var(--fg);margin:-5px 0 3px}
+.verdict{margin-top:16px;padding:14px 16px;border-radius:10px;background:var(--fg);color:var(--on);font:15px/1.5 var(--sans)}
+.say{border-top:2px solid var(--fg);border-bottom:2px solid var(--fg);padding:24px 0;margin:36px 0}
+.say small{display:block;font:700 11px var(--display);letter-spacing:.14em;margin:0 0 6px;color:var(--s3)}
+.say s{font:500 19px var(--display);color:var(--s3)}
+.say p.q{font:600 23px/1.35 var(--display)!important;margin:0!important}
+.monday{background:var(--s1);border-radius:16px;padding:26px 28px;margin-top:40px}
+.monday h4{font:600 12px var(--display);letter-spacing:.14em;text-transform:uppercase;margin:0 0 12px}
+.monday ol{margin:0;padding-left:20px;font:16px/1.6 var(--sans)}
+.endcta{margin-top:40px;padding-top:28px;border-top:1px solid var(--s2);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font:15px var(--sans);color:var(--s4)}
+
+@media (max-width:860px){
+  .wrap{padding:0 18px}
+  nav.top ul{display:none}
+  .hero,.book,.feature{grid-template-columns:1fr;gap:28px}
+  .feature{padding:26px}
+  .tracks{grid-template-columns:1fr 1fr}
+  .work{grid-template-columns:1fr}
+  .list li{grid-template-columns:1fr;gap:4px}
+  .parts li{grid-template-columns:32px 1fr}.parts .prog{grid-column:2}
+  .intake form{grid-template-columns:1fr}
+  .lab{margin:32px 0;padding:18px}
+  .row{grid-template-columns:1fr 56px}.row .t{grid-column:1 / 3;grid-row:2}.row input{grid-column:1 / 3}
+  .fbars div{grid-template-columns:90px 1fr 44px}
+  .col p{font-size:18px}
+}
+
+/* ---------- accent system: monotone palettes use ink as the "accent"; signature palettes add ONE color ---------- */
+:root{ --acc:var(--fg); --acc-ink:var(--on); --acc-text:var(--s3); }
+[data-palette="highlighter"]{ --bg:#f3f1ed; --s1:#e7e4de; --s2:#c9c4bb; --s3:#8a857c; --s4:#4d4a45; --fg:#1b1a18; --on:#f3f1ed; --acc:#ffe14d; --acc-ink:#1b1a18; --acc-text:#1b1a18; }
+[data-palette="vermilion"]  { --bg:#f5f2ec; --s1:#e9e4db; --s2:#cbc4b8; --s3:#877f73; --s4:#4a453f; --fg:#1c1a17; --on:#f5f2ec; --acc:#e0432b; --acc-ink:#fff; --acc-text:#c93a23; }
+[data-palette="cobalt"]     { --bg:#f4f4f1; --s1:#e6e6e1; --s2:#c6c6bf; --s3:#83837b; --s4:#47473f; --fg:#18181a; --on:#f4f4f1; --acc:#2a45d8; --acc-ink:#fff; --acc-text:#2a45d8; }
+[data-palette="signal"]     { --bg:#111214; --s1:#1c1e21; --s2:#33363b; --s3:#7c8088; --s4:#bdc0c6; --fg:#edeef0; --on:#111214; --acc:#c8f23a; --acc-ink:#111214; --acc-text:#c8f23a; }
+h1.big i{color:var(--acc-text)}
+[data-palette="highlighter"] h1.big i{color:inherit;background:linear-gradient(transparent 58%,var(--acc) 58%,var(--acc) 92%,transparent 92%)}
+mark{background:linear-gradient(transparent 55%,color-mix(in srgb,var(--acc) 55%,transparent) 55%);color:inherit;padding:0 2px}
+.btn.acc{background:var(--acc);color:var(--acc-ink)}
+.mark .g i:nth-child(4){background:var(--acc)}
+.feature .btn{background:var(--acc);color:var(--acc-ink)}
+[data-palette="ink"] .feature .btn,[data-palette="navy"] .feature .btn,[data-palette="evergreen"] .feature .btn,[data-palette="night"] .feature .btn{background:var(--on);color:var(--fg)}
+.fbars .sum span.t i{background:var(--acc)}
+[data-palette="ink"] .fbars .sum span.t i,[data-palette="navy"] .fbars .sum span.t i,[data-palette="evergreen"] .fbars .sum span.t i,[data-palette="night"] .fbars .sum span.t i{background:var(--on)}
+.row.sum .t i{background:var(--acc)}
+.fmt.x{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.prog i{background:var(--acc)}
+blockquote{border-left-color:var(--acc)}
+.switch .grp{opacity:.55;font:600 10px var(--display);letter-spacing:.12em;text-transform:uppercase;margin-left:8px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="switch"><div class="wrap">
+  <b>Palette</b><span class="grp" style="margin-left:0">Monotone</span>
+  <button data-p="ink" aria-pressed="true"><i style="background:#1b1a18"></i>Ink</button>
+  <button data-p="navy" aria-pressed="false"><i style="background:#13203d"></i>Navy</button>
+  <button data-p="evergreen" aria-pressed="false"><i style="background:#15291c"></i>Evergreen</button>
+  <button data-p="night" aria-pressed="false"><i style="background:#121417"></i>Night</button>
+  <span class="grp">Signature</span>
+  <button data-p="highlighter" aria-pressed="false"><i style="background:#ffe14d"></i>Highlighter</button>
+  <button data-p="vermilion" aria-pressed="false"><i style="background:#e0432b"></i>Vermilion</button>
+  <button data-p="cobalt" aria-pressed="false"><i style="background:#2a45d8"></i>Cobalt</button>
+  <button data-p="signal" aria-pressed="false"><i style="background:#c8f23a"></i>Signal</button>
+  <span class="sep"></span><span style="opacity:.6">Mockup · sample content</span>
+</div></div>
+
+<!-- ================= HOMEPAGE ================= -->
+<div class="wrap">
+  <nav class="top">
+    <a class="mark" href="#"><span class="g"><i></i><i></i><i></i><i></i></span>Engineering the Modern Agency</a>
+    <ul><li>Essays</li><li>Explainers</li><li>The Book</li><li>Videos</li><li>Work with me</li></ul>
+    <a class="btn acc" href="#">Subscribe</a>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">A working notebook by Damon Henry · Founder, KORTX</div>
+      <h1 class="big">Agencies aren’t dying. They’re being <i>re-engineered.</i></h1>
+      <p class="dek">Practical notes on AI, automation, measurement and leadership, from someone who builds the systems and still answers to clients every week.</p>
+    </div>
+    <div class="sub">
+      <h4>One useful email, once a month</h4>
+      <p>A new chapter draft, one tool worth trying, one thing I got wrong.</p>
+      <form onsubmit="return false"><input placeholder="you@agency.com" aria-label="Email"><button class="btn acc">Join</button></form>
+      <small>Subscribers read book chapters first.</small>
+    </div>
+  </div>
+
+  <section class="s">
+    <div class="sh"><h3>Featured explainer</h3><span>Interactive · 9 min</span></div>
+    <a class="feature" href="#article">
+      <div>
+        <div class="eyebrow">Where should the budget go?</div>
+        <h4>Every platform grades its own homework</h4>
+        <p>Drag the sliders and watch Meta, Google and TikTok together claim more sales than you actually had. Then see what to tell your client instead.</p>
+        <span class="btn">Try it →</span>
+      </div>
+      <div class="fbars" aria-hidden="true">
+        <div><span>Meta</span><span class="t"><i style="width:46%"></i></span><b>620</b></div>
+        <div><span>Google</span><span class="t"><i style="width:40%;animation-delay:.4s"></i></span><b>540</b></div>
+        <div><span>TikTok</span><span class="t"><i style="width:13%;animation-delay:.8s"></i></span><b>180</b></div>
+        <div class="sum"><span>Claimed</span><span class="t"><i style="width:100%"></i></span><b>1,340</b></div>
+        <div class="real"><span>Actual</span><span class="t"><i style="width:74.6%"></i></span><b>1,000</b></div>
+      </div>
+    </a>
+  </section>
+
+  <section class="s">
+    <div class="sh"><h3>Where are you stuck?</h3><span>Pick one to filter ↓</span></div>
+    <div class="tracks" id="tracks">
+      <button class="track" data-t="ai"><small>01 · AI</small><b>Where does AI actually help us?</b><span>6 essays</span></button>
+      <button class="track" data-t="evals"><small>02 · Evals</small><b>Is our AI getting it right?</b><span>2 essays</span></button>
+      <button class="track" data-t="auto"><small>03 · Automation</small><b>What should no human do anymore?</b><span>4 essays</span></button>
+      <button class="track" data-t="analytics"><small>04 · Analytics</small><b>Which numbers can we trust?</b><span>3 essays</span></button>
+      <button class="track" data-t="mmm"><small>05 · MMM</small><b>Where should the budget go?</b><span>3 essays</span></button>
+      <button class="track" data-t="incr"><small>06 · Incrementality</small><b>Did the media cause the sale?</b><span>5 essays</span></button>
+      <button class="track" data-t="process"><small>07 · Process</small><b>How do we build the agency around it?</b><span>2 essays</span></button>
+      <button class="track" data-t="lead"><small>08 · Leadership</small><b>How do I lead a team through this?</b><span>4 essays</span></button>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="sh"><h3>Recent</h3><a href="#">All essays →</a></div>
+    <ul class="list" id="list">
+      <li data-t="incr"><time>2026 · 09 · 22</time><a href="#article">Every platform grades its own homework</a><span class="fmt x">Interactive</span></li>
+      <li data-t="ai"><time>2026 · 09 · 08</time><a href="#">An agent is not a chatbot. It’s a job description.</a><span class="fmt">Essay</span></li>
+      <li data-t="lead"><time>2026 · 08 · 25</time><a href="#">Say this, not that: reporting that gets budgets approved</a><span class="fmt">Playbook</span></li>
+      <li data-t="evals"><time>2026 · 08 · 11</time><a href="#">Evals for people who don’t write code</a><span class="fmt">Playbook</span></li>
+      <li data-t="mmm"><time>2026 · 07 · 28</time><a href="#">MMM in 8 minutes, for agency owners</a><span class="fmt">Video</span></li>
+      <li data-t="auto"><time>2026 · 01 · 14</time><a href="#">The terminal was never the problem. Access was.</a><span class="fmt">Essay</span></li>
+    </ul>
+  </section>
+
+  <section class="s">
+    <div class="book">
+      <div>
+        <div class="eyebrow">Written in public</div>
+        <h4>The book, one essay at a time.</h4>
+        <p>Every essay here is a draft chapter of <em>Engineering the Modern Agency</em>. Subscribers read chapters first and help shape the final book.</p>
+      </div>
+      <ul class="parts">
+        <li><span class="r">I</span><div><b>The Shift</b><span>What dies, what doesn’t, and why that’s good news</span></div><div class="prog"><i style="width:40%"></i></div></li>
+        <li><span class="r">II</span><div><b>Measuring What Matters</b><span>MAGIC, incrementality, MMM</span></div><div class="prog"><i style="width:75%"></i></div></li>
+        <li><span class="r">III</span><div><b>AI That Works</b><span>Agents, evals, human-in-the-loop</span></div><div class="prog"><i style="width:30%"></i></div></li>
+        <li><span class="r">IV</span><div><b>The Agency Operating System</b><span>Data, workflows, automation</span></div><div class="prog"><i style="width:20%"></i></div></li>
+        <li><span class="r">V</span><div><b>Leading Through It</b><span>Teams, pricing, decision rights</span></div><div class="prog"><i style="width:10%"></i></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s" id="work">
+    <div class="sh"><h3>Work with me</h3><span>A few engagements a quarter</span></div>
+    <div class="work">
+      <div class="offer main"><small>For agency owners</small><h5>Advisory</h5><p>A monthly session on AI, operations and measurement strategy. For owners who want a technical partner, not a vendor.</p><a href="#" data-open>Request a conversation →</a></div>
+      <div class="offer"><small>For teams &amp; events</small><h5>Workshops &amp; speaking</h5><p>Half-day working sessions: build your first eval, plan your first geo test, map your agency’s AI workflows.</p><a href="#" data-open>Ask about dates →</a></div>
+      <div class="offer"><small>Done with you</small><h5>Measurement &amp; AI through KORTX</h5><p>When you need the work done, not just advice: incrementality testing, MMM and AI workflows.</p><a href="#">Visit KORTX →</a></div>
+    </div>
+    <div class="intake" id="intake">
+      <h5>Tell me what you’re working on</h5>
+      <p>Four questions. I read every one and reply within a week, even if it’s not a fit.</p>
+      <form onsubmit="return false">
+        <label>Name<input></label>
+        <label>Agency<input></label>
+        <label>Team size<select><option>1–10</option><option>11–50</option><option>51–200</option><option>200+</option></select></label>
+        <label>Interested in<select><option>Advisory</option><option>Workshop / speaking</option><option>Not sure yet</option></select></label>
+        <label class="full">What’s the problem you can’t solve right now?<textarea></textarea></label>
+        <div><button class="btn">Send</button></div>
+      </form>
+    </div>
+  </section>
+
+  <footer><span>© 2026 Damon Henry</span><span>YouTube · LinkedIn · X · RSS</span></footer>
+</div>
+
+<!-- ================= ARTICLE ================= -->
+<div class="pagelabel" id="article">Article page</div>
+<div class="col">
+  <div class="eyebrow">Interactive · Incrementality · Chapter 6 draft</div>
+  <h1>Every platform grades its own homework</h1>
+  <p class="dek">Platforms now automate the buying. Proving what worked is still up to you.</p>
+  <div class="by"><div class="av">DH</div><div>Damon Henry · 9 min read · <a href="#">Watch the 6-min video</a></div></div>
+
+  <p class="drop">Picture a month with 1,000 real orders. Add up what Meta, Google and TikTok each report and you get 1,340. <mark>Nobody lied.</mark> Each platform counted by its own rules, and all three claimed credit for many of the same customers.</p>
+  <p>This isn’t a tracking bug you can fix. It’s how attribution works. Try it yourself:</p>
+
+  <div class="lab" id="claims">
+    <div class="lab-h"><b>Try it</b><span>1,000 real orders · illustrative</span></div>
+    <h4>How many sales are your platforms claiming?</h4>
+    <div class="row"><span>Meta</span><div class="t"><i></i></div><output></output><input type="range" min="0" max="1000" value="620" data-k="meta" aria-label="Meta reported"></div>
+    <div class="row"><span>Google</span><div class="t"><i></i></div><output></output><input type="range" min="0" max="1000" value="540" data-k="google" aria-label="Google reported"></div>
+    <div class="row"><span>TikTok</span><div class="t"><i></i></div><output></output><input type="range" min="0" max="1000" value="180" data-k="tiktok" aria-label="TikTok reported"></div>
+    <div class="row sum"><span>Sum of claims</span><div class="t"><i></i></div><output></output></div>
+    <div class="row real"><span>Actual orders</span><div class="t"><i></i></div><output>1,000</output></div>
+    <div class="verdict" id="verdict"></div>
+  </div>
+
+  <blockquote>Attribution shows what customers touched, not what media caused.</blockquote>
+  <p>The fix isn’t a better dashboard. It’s <mark>changing the question you answer</mark> for your client.</p>
+
+  <div class="say">
+    <small>INSTEAD OF</small><s>“Facebook had a 2.5x ROAS.”</s>
+    <small style="margin-top:18px">SAY</small>
+    <p class="q">“Our geo test showed Meta drove $120K in incremental revenue at a CAC 20% below target. We recommend a 15% budget increase.”</p>
+  </div>
+
+  <div class="monday">
+    <h4>What to do Monday</h4>
+    <ol>
+      <li>Add up last month’s platform-reported conversions.</li>
+      <li>Compare the total with actual orders from the client’s store or CRM.</li>
+      <li>Show your client that one number. It opens the incrementality conversation.</li>
+    </ol>
+  </div>
+
+  <div class="endcta"><span>Stuck on this with a client? That’s what advisory is for.</span><a class="btn line" href="#work">Work with me</a></div>
+</div>
+
+<script>
+// palette
+const btns=[...document.querySelectorAll('.switch button')];
+function setP(p){document.documentElement.dataset.palette=p;btns.forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===p));try{localStorage.setItem('pal',p)}catch(e){}}
+btns.forEach(b=>b.onclick=()=>setP(b.dataset.p));
+try{const p=localStorage.getItem('pal');if(p)setP(p)}catch(e){}
+
+// track filter
+const tr=[...document.querySelectorAll('.track')],li=[...document.querySelectorAll('#list li')];
+tr.forEach(b=>b.onclick=()=>{const on=b.getAttribute('aria-pressed')!=='true';tr.forEach(x=>x.setAttribute('aria-pressed','false'));if(on)b.setAttribute('aria-pressed','true');li.forEach(l=>l.classList.toggle('dim',on&&l.dataset.t!==b.dataset.t))});
+
+// intake form toggle
+document.querySelectorAll('[data-open]').forEach(a=>a.onclick=e=>{e.preventDefault();const f=document.getElementById('intake');f.classList.add('on');f.scrollIntoView({behavior:'smooth',block:'center'})});
+
+// claims widget
+const claims=document.getElementById('claims'),rows=[...claims.querySelectorAll('.row')],fmt=n=>n.toLocaleString('en-US');
+function upd(){
+  const v={};claims.querySelectorAll('input').forEach(i=>v[i.dataset.k]=+i.value);
+  const sum=v.meta+v.google+v.tiktok,max=Math.max(2000,sum),vals=[v.meta,v.google,v.tiktok,sum,1000];
+  rows.forEach((r,i)=>{r.querySelector('.t i').style.width=(vals[i]/max*100)+'%';r.querySelector('output').textContent=fmt(vals[i])});
+  const d=sum-1000;
+  document.getElementById('verdict').innerHTML=d>0?`Platforms are claiming <b>${fmt(d)} sales that never happened</b>, ${Math.round(d/10)}% more than exist.`:`Claims add up to ${fmt(sum)}, at or below reality. In practice this almost never happens.`;
+}
+claims.querySelectorAll('input').forEach(i=>i.oninput=upd);upd();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+---
+import { SITE } from '../consts';
+import Logo from './Logo.astro';
+
+const links = [
+	{ href: '/essays/', label: 'Essays' },
+	{ href: '/book/', label: 'The Book' },
+	{ href: '/work/', label: 'Work with me' },
+	{ href: '/about/', label: 'About' },
+];
+const path = Astro.url.pathname;
+---
+
+<header class="wrap">
+	<nav aria-label="Main">
+		<a class="mark" href="/"><Logo />{SITE.title}</a>
+		<ul>
+			{links.map((l) => <li><a href={l.href} aria-current={path.startsWith(l.href) ? 'page' : undefined}>{l.label}</a></li>)}
+		</ul>
+		<a class="btn acc" href="/#subscribe">Subscribe</a>
+	</nav>
+</header>
+
+<style>
+	nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; border-bottom: 1px solid var(--s2); gap: 16px; }
+	.mark { display: flex; align-items: center; gap: 10px; font: 700 16px var(--display); text-decoration: none; letter-spacing: -0.01em; }
+	ul { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; font: 500 14px var(--sans); }
+	ul a { color: var(--s4); text-decoration: none; }
+	ul a:hover, ul a[aria-current='page'] { color: var(--fg); }
+	ul a[aria-current='page'] { background: linear-gradient(transparent 60%, var(--mark) 60%); }
+	@media (max-width: 860px) {
+		nav { flex-wrap: wrap; }
+		ul { order: 3; width: 100%; gap: 18px; overflow-x: auto; }
+		.mark { font-size: 15px; }
+	}
+</style>

@@ -1,0 +1,17 @@
+---
+// Embeds a public LinkedIn post. Usage in MDX:
+// <LinkedInPost urn="urn:li:share:1234" url="https://www.linkedin.com/posts/..." author="Name" title="Post title" />
+// Get the urn from the post's "…" menu → Embed this post.
+interface Props { urn: string; url: string; author: string; title: string; height?: number }
+const { urn, url, author, title, height = 560 } = Astro.props;
+---
+<figure class="li">
+	<iframe src={`https://www.linkedin.com/embed/feed/update/${urn}`} height={height} title={`${author} on LinkedIn: ${title}`} loading="lazy" allowfullscreen></iframe>
+	<figcaption><a href={url}>{author} on LinkedIn: “{title}” →</a></figcaption>
+</figure>
+<style>
+	.li { margin: 36px 0; }
+	iframe { display: block; width: 100%; border: 1px solid var(--s2); border-radius: 12px; background: #fff; }
+	figcaption { margin-top: 10px; font: 14px var(--sans); color: var(--s3); }
+	figcaption a { color: inherit; }
+</style>

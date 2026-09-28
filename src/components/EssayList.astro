@@ -1,0 +1,34 @@
+---
+import { FORMAT_LABEL, type Essay } from '../data/essays';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props { essays: Essay[] }
+const { essays } = Astro.props;
+---
+
+<ul class="list" data-essay-list>
+	{
+		essays.map((e) => (
+			<li data-track={e.data.track}>
+				<FormattedDate date={e.data.date} style="dots" />
+				<a href={`/essays/${e.id}/`}>
+					{e.data.title}
+					{e.data.draft && <span class="draft">draft</span>}
+				</a>
+				<span class:list={['fmt', e.data.format]}>{FORMAT_LABEL[e.data.format]}</span>
+			</li>
+		))
+	}
+</ul>
+
+<style>
+	.list { list-style: none; margin: 0; padding: 0; }
+	li { display: grid; grid-template-columns: 120px 1fr auto; gap: 20px; padding: 17px 0; border-top: 1px solid var(--s2); align-items: baseline; transition: opacity 0.3s; }
+	li:first-child { border-top: 0; }
+	li:global(.dim) { opacity: 0.2; }
+	li :global(time) { font: 13px var(--mono); color: var(--s3); }
+	a { font: 500 21px/1.3 var(--serif); text-decoration: none; }
+	a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+	.draft { font: 600 11px var(--mono); text-transform: uppercase; color: var(--s3); border: 1px dashed var(--s3); border-radius: 4px; padding: 1px 6px; margin-left: 8px; vertical-align: middle; }
+	@media (max-width: 860px) { li { grid-template-columns: 1fr; gap: 4px; } .fmt { justify-self: start; } }
+</style>

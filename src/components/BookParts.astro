@@ -1,0 +1,40 @@
+---
+import { PARTS } from '../data/book';
+import type { Essay } from '../data/essays';
+
+interface Props { essays: Essay[] }
+const { essays } = Astro.props;
+const drafted = (n: number) => essays.filter((e) => e.data.part === n && !e.data.draft).length;
+---
+
+<ul class="parts">
+	{
+		PARTS.map((p) => {
+			const done = drafted(p.n);
+			const pct = Math.min(100, Math.round((done / p.planned) * 100));
+			return (
+				<li>
+					<span class="r">{p.roman}</span>
+					<div>
+						<b>{p.title}</b>
+						<span>{p.blurb}</span>
+					</div>
+					<div class="prog" role="img" aria-label={`${done} of ${p.planned} chapters drafted`}>
+						<i style={`width:${Math.max(pct, 3)}%`} />
+					</div>
+				</li>
+			);
+		})
+	}
+</ul>
+
+<style>
+	.parts { list-style: none; margin: 0; padding: 0; }
+	li { display: grid; grid-template-columns: 40px 1fr 120px; gap: 14px; padding: 14px 0; border-top: 1px solid var(--s2); align-items: center; }
+	.r { font: 600 15px var(--display); color: var(--s3); }
+	b { font: 500 19px var(--serif); display: block; }
+	span { font: 14px var(--sans); color: var(--s3); }
+	.prog { height: 6px; background: var(--s1); border-radius: 9px; overflow: hidden; }
+	.prog i { display: block; height: 100%; background: var(--acc); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 15%, transparent); border-radius: 9px; }
+	@media (max-width: 860px) { li { grid-template-columns: 32px 1fr; } .prog { grid-column: 2; } }
+</style>

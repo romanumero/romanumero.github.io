@@ -1,0 +1,22 @@
+---
+import { SITE } from '../consts';
+const year = new Date().getFullYear();
+const links = [
+	{ href: SITE.social.youtube, label: 'YouTube' },
+	{ href: SITE.social.linkedin, label: 'LinkedIn' },
+	{ href: SITE.social.x, label: 'X' },
+	{ href: '/rss.xml', label: 'RSS' },
+].filter((l) => l.href);
+---
+
+<footer class="wrap">
+	<span>© {year} {SITE.author}</span>
+	<span class="links">{links.map((l) => <a href={l.href}>{l.label}</a>)}</span>
+</footer>
+
+<style>
+	footer { padding: 32px var(--gutter); font: 14px var(--sans); color: var(--s3); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+	.links { display: flex; gap: 16px; }
+	a { text-decoration: none; }
+	a:hover { color: var(--fg); }
+</style>

@@ -1,0 +1,26 @@
+---
+import EssayList from '../../components/EssayList.astro';
+import TrackGrid from '../../components/TrackGrid.astro';
+import { getEssays } from '../../data/essays';
+import Base from '../../layouts/Base.astro';
+
+const essays = await getEssays();
+---
+
+<Base title="Essays" description="Every essay, explainer and playbook, newest first.">
+	<div class="wrap">
+		<header class="head">
+			<div class="eyebrow">Essays</div>
+			<h1>Everything, newest first.</h1>
+			<p>Pick the problem you’re stuck on to filter, or read straight down.</p>
+		</header>
+		<section class="section"><TrackGrid essays={essays} filter /></section>
+		<section class="section" style="border-bottom:0"><EssayList essays={essays} /></section>
+	</div>
+</Base>
+
+<style>
+	.head { padding: 64px 0 8px; }
+	h1 { font: 500 clamp(36px, 5vw, 54px)/1.05 var(--serif); letter-spacing: -0.02em; margin: 12px 0; }
+	p { font: 19px/1.5 var(--serif); color: var(--s4); margin: 0; }
+</style>

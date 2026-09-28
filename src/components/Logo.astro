@@ -1,0 +1,12 @@
+---
+// Four ascending bars; the last one is the highlighter.
+---
+<span class="g" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+<style>
+	.g { display: flex; gap: 3px; align-items: flex-end; height: 18px; }
+	i { width: 4px; border-radius: 1px; display: block; }
+	i:nth-child(1) { height: 5px; background: var(--s2); }
+	i:nth-child(2) { height: 9px; background: var(--s3); }
+	i:nth-child(3) { height: 13px; background: var(--fg); }
+	i:nth-child(4) { height: 18px; background: var(--acc); }
+</style>
