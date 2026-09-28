@@ -2,7 +2,6 @@
 title: "The Terminal Was Never the Problem. Access Was."
 description: "Why Claude Cowork matters more for advertising than you think."
 date: 2026-01-14
-updated: 2026-09-28
 track: ai
 format: essay
 part: 3

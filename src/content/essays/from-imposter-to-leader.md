@@ -2,7 +2,6 @@
 title: "From Imposter to Leader: Embracing the Journey"
 description: "That feeling that you don’t belong in the room isn’t a weakness. It’s a sign you’re pushing your limits."
 date: 2024-12-28
-updated: 2026-09-28
 track: leadership
 format: essay
 ---
