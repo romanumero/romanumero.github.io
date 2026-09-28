@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+// Kit sends subscribers here after they click the confirmation link: /welcome/?list=newsletter|cohort|toolkits
+---
+<Base title="You're in" description="Your subscription is confirmed.">
+	<Fragment slot="head"><meta name="robots" content="noindex" /></Fragment>
+	<div class="wrap box">
+		<div class="eyebrow">Confirmed</div>
+		<h1>You’re <span class="hl">in.</span></h1>
+		<p data-msg="newsletter">Thanks for subscribing. You’ll get one email a month: a new chapter draft of <em>Engineering the Modern Agency</em>, one tool worth trying, and one thing I got wrong. Reply to any of them; I read every one.</p>
+		<p data-msg="cohort" hidden>You’re on the waitlist for <em>The AI-Ready Agency</em>. You’ll hear about the first cohort, and founding pricing, before anyone else.</p>
+		<p data-msg="toolkits" hidden>You’re on the list. I’ll email you as each toolkit launches, with launch pricing for subscribers.</p>
+		<p class="sig">— Damon</p>
+		<h2>Start here</h2>
+		<ul>
+			<li><a href="/essays/magic-framework/">Every Platform Grades Its Own Homework</a> <span>The MAGIC framework, with interactive examples</span></li>
+			<li><a href="/essays/the-terminal-was-never-the-problem/">The Terminal Was Never the Problem</a> <span>Why AI access matters more than AI capability</span></li>
+			<li><a href="/about/">About me</a> <span>Who’s writing this, and why</span></li>
+		</ul>
+	</div>
+</Base>
+
+<script>
+	const list = new URLSearchParams(location.search).get('list');
+	if (list && document.querySelector(`[data-msg="${CSS.escape(list)}"]`)) {
+		document.querySelectorAll<HTMLElement>('[data-msg]').forEach((p) => (p.hidden = p.dataset.msg !== list));
+	}
+</script>
+
+<style>
+	.box { max-width: 680px; padding-top: 96px; padding-bottom: 96px; }
+	h1 { font: 500 clamp(40px, 5.4vw, 60px)/1.05 var(--serif); letter-spacing: -0.02em; margin: 12px 0 18px; }
+	p { font: 19px/1.6 var(--serif); color: var(--s4); }
+	.sig { font-style: italic; }
+	h2 { font: 600 13px var(--display); letter-spacing: 0.14em; text-transform: uppercase; margin: 48px 0 8px; }
+	ul { list-style: none; padding: 0; margin: 0; }
+	li { padding: 14px 0; border-top: 1px solid var(--s2); display: flex; flex-direction: column; gap: 2px; }
+	li a { font: 500 20px var(--serif); }
+	li span { font: 14px var(--sans); color: var(--s3); }
+</style>
