@@ -1,0 +1,84 @@
+---
+// Static figure: how a confidence score routes each decision to one of three lanes.
+// Illustrative examples, not real model output.
+type Example = { label: string; answer: string; confidence: number };
+type Lane = { name: string; rule: string; what: string; examples: Example[] };
+interface Props {
+	lanes?: Lane[];
+	caption?: string;
+}
+const {
+	lanes = [
+		{
+			name: 'Automatic',
+			rule: '95% sure or more',
+			what: 'The system applies it and logs it. No one checks first.',
+			examples: [
+				{ label: 'northfield running shoes', answer: 'Branded', confidence: 0.99 },
+				{ label: 'stridewell sale', answer: 'Competitor', confidence: 0.98 },
+				{ label: 'shoe size chart', answer: 'Irrelevant', confidence: 0.96 },
+			],
+		},
+		{
+			name: 'A person approves',
+			rule: '70% to 95% sure',
+			what: 'The change is ready. A person says yes or no.',
+			examples: [
+				{ label: 'cheap running shoes', answer: 'Generic', confidence: 0.92 },
+				{ label: 'northfield jobs', answer: 'Branded', confidence: 0.82 },
+			],
+		},
+		{
+			name: 'A person decides',
+			rule: 'Under 70% sure',
+			what: 'The model’s guess is a hint. A person makes the call.',
+			examples: [
+				{ label: 'northfield ma running store', answer: 'Branded?', confidence: 0.68 },
+				{ label: 'north running', answer: 'Branded?', confidence: 0.56 },
+			],
+		},
+	],
+	caption = 'Illustrative search terms for a fictional brand. Where you draw these lines is a business decision, not a technical one.',
+} = Astro.props;
+---
+<figure class="lanes">
+	<div class="cols">
+		{lanes.map((lane, i) => (
+			<section class={`lane l${i}`}>
+				<small>{lane.rule}</small>
+				<h5>{lane.name}</h5>
+				<p class="what">{lane.what}</p>
+				<ul>
+					{lane.examples.map((e) => (
+						<li>
+							<span class="term">“{e.label}”</span>
+							<span class="ans">{e.answer} <output>{Math.round(e.confidence * 100)}%</output></span>
+						</li>
+					))}
+				</ul>
+			</section>
+		))}
+	</div>
+	<figcaption>{caption}</figcaption>
+</figure>
+<style>
+	.lanes { border: 1.5px solid var(--fg); border-radius: 18px; padding: 24px; margin: 36px -40px; font-family: var(--sans); }
+	.cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+	.lane { border-radius: 12px; padding: 16px; border: 1px solid var(--s2); }
+	.l0 { background: var(--mark); border-color: transparent; }
+	.l1 { background: var(--s1); border-color: var(--s1); }
+	small { display: block; font: 600 12px var(--mono); color: var(--s4); margin: 0 0 4px; }
+	h5 { font: 600 19px/1.2 var(--display); margin: 0 0 6px; }
+	.what { font: 13.5px/1.45 var(--sans) !important; color: var(--s4); margin: 0 0 12px !important; }
+	ul { list-style: none; margin: 0 !important; padding: 0 !important; }
+	li { font: 13.5px/1.35 var(--sans) !important; margin: 0 0 10px !important; padding: 0 !important; }
+	li::before, li::marker { content: none; }
+	.term { display: block; font-weight: 600; }
+	.ans { color: var(--s4); }
+	output { font: 500 12.5px var(--mono); color: var(--fg); margin-left: 4px; }
+	figcaption { font: 12px var(--mono); color: var(--s3); margin-top: 14px; }
+	@media (max-width: 860px) {
+		.lanes { margin: 32px 0; padding: 18px; }
+		.cols { grid-template-columns: 1fr; }
+	}
+</style>
