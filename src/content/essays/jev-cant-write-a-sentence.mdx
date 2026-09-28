@@ -1,0 +1,92 @@
+---
+title: "Jev Can't Write a Sentence. That's Why Agencies Should Pay Attention."
+description: "TypeSafe AI's new model doesn't chat. It answers yes/no and multiple-choice questions, fast and cheap, and tells you how sure it is. That's the shape of most agency operations work."
+date: 2026-09-23
+track: ai
+format: interactive
+part: 3
+---
+
+import ConfidenceLanes from '@components/explainers/ConfidenceLanes.astro';
+import WriterVsDecider from '@components/explainers/WriterVsDecider.astro';
+
+Every AI launch this year has been a bigger model that writes longer answers. Last week a startup called TypeSafe AI released one that can't write at all.
+
+It's called Jev. You can't chat with it. Give it some information and a question with fixed answers, and it gives you back one of those answers, the odds for each option, and how confident it is. That's all it does.
+
+I think that's the most useful AI release for agency operations this year. Here's why.
+
+## Most agency work is a judgment call, not an essay
+
+Look at what your team does all day. Most of it isn't writing. It's deciding:
+
+- Is this campaign pacing problem real, or just a slow Tuesday?
+- Is this search term branded, competitor, or junk?
+- Does this ad copy break the client's brand rules?
+- Does this line on the invoice match what actually ran?
+- Is this client email urgent, or can it wait until tomorrow?
+
+Each of those has a short list of right answers. Today we either hand them to people, who check a sample because nobody has time to check everything, or to a large language model, which is slow, costs money on every call, and can answer with something that isn't one of your options.
+
+Jev is built for exactly this. TypeSafe calls it a "System One" model, after Daniel Kahneman's fast, intuitive kind of thinking. You ask it three kinds of questions:
+
+- **Choice:** pick one from a list you define (branded / competitor / generic / irrelevant).
+- **Score:** rate something on a scale you define (brand fit: off / borderline / on).
+- **Yes or no:** "Does this line item match the insertion order?", answered with a probability between 0 and 1.
+
+It can only answer with options you gave it, so it can't make up a category you never gave it. Every answer comes with a confidence score, and in my view that score matters more than the speed.
+
+<WriterVsDecider />
+
+## Confidence is how you hand over authority
+
+I've written before that the biggest barrier to AI in advertising isn't capability. It's accountability. Marketers are happy to let AI *recommend* a change. Far fewer are comfortable letting it *act*.
+
+The usual answer is "keep a human in the loop." Fine, but on which decisions? If a person reviews everything, you haven't automated anything. If they review nothing, you've handed over authority nobody agreed to give.
+
+A model that reports its confidence gives you a practical rule. Every decision lands in one of three lanes:
+
+<ConfidenceLanes />
+
+<mark>The confidence score turns "human in the loop" into a routing rule you can write down.</mark> The thresholds are yours to set, per client and per decision. A $500 budget shift and a paused campaign shouldn't share one.
+
+One warning: a confidence score is only worth something if it's accurate on *your* data. Before you trust the number, test it: take a few hundred past decisions your team already made and see whether "95% sure" is right about 95% of the time. That's evaluation work, and no vendor can do it for you.
+
+## Cheap judgment changes what you check
+
+The model is named after William Stanley Jevons, the 19th-century economist who noticed that when coal got cheaper to use, England burned more of it, not less. The same thing happens with judgment.
+
+TypeSafe's published input price is $42 per billion tokens. Say you classify a million search terms a month at a few hundred tokens each. On input price alone that's roughly $10–15. The same job on a frontier LLM costs hundreds of times more.
+
+At that price you stop sampling. You check every search term, every placement, every line of every invoice, every night. Your team stops being the first line of review and becomes the escalation path. That's a different job, and in my experience a better one.
+
+## Where I'd test it first
+
+This is how I'd think about it for KORTX and for the agencies we work with. None of it is proven yet.
+
+**Search term triage.** Branded vs. non-branded, negative keyword candidates, competitor terms. It's high volume, the answers are fixed, and mistakes are cheap and easy to undo. It also feeds straight into the branded-keyword question most clients never test.
+
+**A second opinion on campaign monitoring.** Rules already flag campaigns that are off pace or off target. A fast classifier can sort those flags by severity and likely cause before they reach a person, so the queue holds things worth a human's time.
+
+**Brand and spec compliance.** Score every ad against the client's guidelines before it goes live, not a sample after.
+
+**Guardrails on agents.** This is the one I'd watch most closely. When an AI agent proposes an action, a fast classifier can answer "Does this exceed the authority this agent was given?" before it runs. An agent shouldn't assume authority it hasn't been given. Now there's a cheap way to check.
+
+**A quality check on the data you pull in.** Platform exports break all the time. Asking "Does this record look like the ones before it?" on every row is how you catch problems before they reach a client report.
+
+## What I'd be careful about
+
+- **It launched a week ago.** It's in limited early access. The headline speed and cost figures are TypeSafe's own benchmarks on their own workflows, and they say those are best cases. An independent test by Zyte, a web-scraping company, found it about 7 times cheaper per record than a generative model and several times faster. That's impressive, but it isn't 400 times.
+- **It isn't perfectly consistent.** Ask a borderline question twice and you can get slightly different answers. That's fine when a person reviews the borderline cases. It's not fine if you treat every answer as final.
+- **Text can be written to fool it.** Web pages, reviews and ad copy can all be written to steer a classifier. Don't put it in charge of anything where someone has a motive to game the answer, at least not without a second check.
+- **Use simple rules first.** If a spreadsheet formula or a fixed rule can answer the question, use that. Save the model for questions that need someone to understand the language. That's the same line I'd draw between rules and AI anywhere.
+
+## If you run an agency, try this
+
+Pick one decision your team makes more than a hundred times a week that has a fixed set of answers. Write down the options. Pull the last few hundred times your team made that call. That's your test set, whether you end up using Jev, an LLM, or plain rules.
+
+You don't need a new model to do that. But once you have that test set, the cheap models coming this year are much more useful to you.
+
+---
+
+**Sources:** [TypeSafe AI](https://typesafe.ai) · [Jev on Wikipedia](https://en.wikipedia.org/wiki/Jev_(AI_model)) · [LangChain: building a harness with Jev](https://www.langchain.com/blog/building-a-harness-with-jev) · [Zyte: Jev in web scraping](https://www.zyte.com/blog/jev-the-model-that-cannot-write-a-word-and-where-it-fits-in-web-scraping-does-it/)
