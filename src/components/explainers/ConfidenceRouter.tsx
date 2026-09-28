@@ -118,7 +118,7 @@ export default function ConfidenceRouter({
 				{[
 					{ label: 'Person decides', from: MIN, to: review },
 					{ label: 'Person approves', from: review, to: act },
-					{ label: 'Acts', from: act, to: 1 },
+					{ label: 'Auto', from: act, to: 1 },
 				].map((z) => X(z.to) - X(z.from) > z.label.length * 6.2 && (
 					<text key={z.label} x={(X(z.from) + X(z.to)) / 2} y={24} textAnchor="middle" className="zone">{z.label}</text>
 				))}
@@ -152,14 +152,14 @@ export default function ConfidenceRouter({
 			</div>
 
 			<div className="split">
-				<label htmlFor="rt-act"><span>System acts alone at or above</span><output>{pct(act)}</output></label>
+				<label htmlFor="rt-act"><span>Act automatically when the model is at least this sure</span><output>{pct(act)}</output></label>
 				<input id="rt-act" type="range" min={0.75} max={0.99} step={0.01} value={act} onChange={(e) => setActSafe(+e.target.value)} />
-				<label htmlFor="rt-review"><span>A person decides below</span><output>{pct(review)}</output></label>
+				<label htmlFor="rt-review"><span>A person decides when the model is less than this sure</span><output>{pct(review)}</output></label>
 				<input id="rt-review" type="range" min={MIN} max={0.94} step={0.01} value={review} onChange={(e) => setReviewSafe(+e.target.value)} />
 			</div>
 
 			<div className="calc lanes">
-				<div className="cell auto"><small>System acts, logs it</small><span className="big">{counts.acts}</span><small>of {n} · no one touches these</small></div>
+				<div className="cell auto"><small>Automatic, logged</small><span className="big">{counts.acts}</span><small>of {n} · no one touches these</small></div>
 				<div className="cell"><small>Prepared, person approves</small><span className="big">{counts.approves}</span><small>quick yes or no</small></div>
 				<div className="cell"><small>Person decides</small><span className="big">{counts.decides}</span><small>full human judgment</small></div>
 			</div>
