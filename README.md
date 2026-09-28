@@ -7,19 +7,25 @@ Damon Henry's blog, built with [Astro](https://astro.build). Deploys to https://
 Every post is one Markdown file in `src/content/essays/`. The file name is the URL:
 `src/content/essays/from-imposter-to-leader.md` → `/essays/from-imposter-to-leader/`.
 
+**Drafts are private.** They live in a separate private repo, [`romanumero/damonhenry-drafts`](https://github.com/romanumero/damonhenry-drafts), cloned to `~/Labs/damonhenry-drafts` (override with `DRAFTS_DIR`). This repo is public, so drafts never go here. `npm run dev` reads the drafts folder and shows each draft with a "Private draft" banner; the live build never includes it. Superset workspace setup clones the drafts repo automatically.
+
 **New post**
 
 ```sh
 npm run new "Where Should the Budget Go?" -- --track mmm --format essay --part 2
 ```
 
-This creates the file with `draft: true`. Drafts show up in `npm run dev` (labeled DRAFT) but never on the live site.
+This creates the file in the drafts repo. Commit and push there to back it up (`cd ~/Labs/damonhenry-drafts && git add -A && git commit -m "…" && git push`).
 
-**Update a post:** open the file, edit, save. In dev, the page reloads as you type. On the live site, push to `master` (or edit the file directly on GitHub; every post page in dev has an "Edit this post on GitHub" link). The site redeploys in about a minute.
+**Publish**
 
-If you change a post substantially, add `updated: 2026-10-20` to the frontmatter so readers see it.
+```sh
+npm run publish where-should-the-budget-go
+```
 
-**Publish:** change `draft: true` to `draft: false` (or delete the line) and push.
+This moves the draft into `src/content/essays/` with today's date. Commit and push this repo and it goes live in about a minute; then commit the removal in the drafts repo.
+
+**Update a published post:** edit its file in `src/content/essays/`, save (dev reloads as you type), and push to `master`. Every post page in dev has an "Edit this post on GitHub" link. If you change a post substantially, add `updated: 2026-10-20` to the frontmatter so readers see it.
 
 ### Frontmatter
 
@@ -65,7 +71,8 @@ draft: false
 |---|---|
 | `npm install` | Install dependencies |
 | `npm run dev` | Local preview at http://localhost:4321 |
-| `npm run new "Title"` | Create a draft post |
+| `npm run new "Title"` | Create a private draft (in the drafts repo) |
+| `npm run publish <slug>` | Move a draft onto the site |
 | `npm run build` | Build the site into `dist/` |
 
 In Superset workspaces, setup installs dependencies automatically and **Run** starts the dev server on a free port (see `.superset/`).

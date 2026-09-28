@@ -15,12 +15,17 @@ const { title, description, date, updated, track, format, part, youtube, draft }
 const partInfo = part ? PARTS.find((p) => p.n === part) : undefined;
 const minutes = readingTime(essay.body);
 // Dev-only shortcut to the source file on GitHub.
-const editUrl = essay.filePath ? `https://github.com/romanumero/romanumero.github.io/edit/master/${essay.filePath}` : undefined;
+const editUrl =
+	essay.collection === 'drafts'
+		? `https://github.com/romanumero/damonhenry-drafts/edit/main/${essay.filePath?.split('/').pop()}`
+		: essay.filePath
+			? `https://github.com/romanumero/romanumero.github.io/edit/master/${essay.filePath}`
+			: undefined;
 ---
 
 <Base title={title} description={description} type="article">
 	<article class="col">
-		{draft && <p class="draft-note">Draft: visible in dev only. Set <code>draft: false</code> to publish.</p>}
+		{draft && <p class="draft-note">{essay.collection === 'drafts' ? <>Private draft (damonhenry-drafts). Publish with <code>npm run publish {essay.id}</code>.</> : <>Draft: visible in dev only. Set <code>draft: false</code> to publish.</>}</p>}
 		<div class="eyebrow">
 			{FORMAT_LABEL[format]} · <a href={`/tracks/${track}/`}>{trackById(track).label}</a>
 			{partInfo && <> · Part {partInfo.roman}: {partInfo.title}</>}

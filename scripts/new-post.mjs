@@ -2,6 +2,7 @@
 // Create a new essay: npm run new "My Post Title" [-- --track mmm --format playbook --part 2]
 import { existsSync, writeFileSync } from 'node:fs';
 import { parseArgs } from 'node:util';
+import { DRAFTS_DIR } from '../src/drafts-dir.mjs';
 
 const TRACKS = ['ai', 'evals', 'automation', 'analytics', 'mmm', 'incrementality', 'process', 'leadership'];
 const FORMATS = ['essay', 'playbook', 'interactive', 'video'];
@@ -21,7 +22,9 @@ if (!FORMATS.includes(values.format)) throw new Error(`Unknown format "${values.
 
 const slug = title.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const ext = values.format === 'interactive' ? 'mdx' : 'md';
-const file = `src/content/essays/${slug}.${ext}`;
+// New posts go to the private drafts repo; fall back to the public essays folder (as draft: true) if it isn't cloned.
+const dir = existsSync(DRAFTS_DIR) ? DRAFTS_DIR : 'src/content/essays';
+const file = `${dir}/${slug}.${ext}`;
 if (existsSync(file)) throw new Error(`${file} already exists`);
 
 const today = new Date().toISOString().slice(0, 10);
@@ -44,4 +47,4 @@ const lines = [
 	'',
 ];
 writeFileSync(file, lines.join('\n'));
-console.log(`Created ${file}\nPreview: npm run dev, then open /essays/${slug}/\nPublish: set draft: false and push to master.`);
+console.log(`Created ${file}\nPreview: npm run dev, then open /essays/${slug}/\nPublish: npm run publish ${slug}`);
