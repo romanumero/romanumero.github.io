@@ -1,6 +1,6 @@
 # Engineering the Modern Agency
 
-Damon Henry's blog, built with [Astro](https://astro.build). Deploys to https://romanumero.github.io on every push to `master`.
+Damon Henry's blog, built with [Astro](https://astro.build). Deploys to https://damonhenry.com (GitHub Pages, repo `romanumero/romanumero.github.io`) on every push to `master`.
 
 ## Writing and updating posts
 

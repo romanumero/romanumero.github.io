@@ -6,7 +6,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://romanumero.github.io',
+	site: 'https://damonhenry.com',
 	trailingSlash: 'always',
 	integrations: [mdx(), react(), sitemap()],
 	fonts: [
