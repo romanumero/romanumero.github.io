@@ -13,6 +13,9 @@ export const SITE = {
 		toolkits: '9973074', // EMA – Toolkits waitlist
 	},
 	contactEmail: 'me@damonhenry.com', // routed to damon@kortx.io by Google Workspace
+	// Plausible's site-specific script URL (Site settings → Site installation, the src of the first
+	// <script>, e.g. https://plausible.io/js/pa-XXXXXXXX.js). Loaded in production builds only; empty = off.
+	plausibleScript: 'https://plausible.io/js/pa-cEnYJ7jncULpA6Cn-4DXT.js',
 	social: {
 		youtube: '', // TODO
 		linkedin: 'https://www.linkedin.com/in/damonhenry/',

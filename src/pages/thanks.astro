@@ -16,10 +16,13 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <script>
+	import { track } from '../lib/track';
+
 	const list = new URLSearchParams(location.search).get('list');
 	if (list && document.querySelector(`[data-msg="${CSS.escape(list)}"]`)) {
 		document.querySelectorAll<HTMLElement>('[data-msg]').forEach((p) => (p.hidden = p.dataset.msg !== list));
 	}
+	track('Signup', { list: list ?? 'newsletter' });
 </script>
 
 <style>

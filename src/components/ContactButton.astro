@@ -27,11 +27,14 @@ const encoded = Buffer.from([...SITE.contactEmail].reverse().join('')).toString(
 </div>
 
 <script>
+	import { track } from '../lib/track';
+
 	for (const el of document.querySelectorAll<HTMLElement>('.contact')) {
 		const reveal = el.querySelector<HTMLButtonElement>('.reveal')!;
 		const panel = el.querySelector<HTMLElement>('.panel')!;
 		const done = el.querySelector<HTMLElement>('.done')!;
 		const address = () => [...atob(el.dataset.e!)].reverse().join('');
+		const inquiry = el.dataset.s || 'General';
 
 		reveal.addEventListener('click', () => {
 			const a = address();
@@ -41,12 +44,16 @@ const encoded = Buffer.from([...SITE.contactEmail].reverse().join('')).toString(
 			panel.hidden = false;
 			reveal.hidden = true;
 			reveal.setAttribute('aria-expanded', 'true');
+			track('Contact Reveal', { inquiry });
 		});
+
+		el.querySelector('.open')!.addEventListener('click', () => track('Contact Use', { inquiry, method: 'email app' }));
 
 		el.querySelector('.copy')!.addEventListener('click', async () => {
 			try {
 				await navigator.clipboard.writeText(address());
 				done.textContent = 'Copied.';
+				track('Contact Use', { inquiry, method: 'copy' });
 			} catch {
 				done.textContent = 'Select the address above to copy it.';
 			}
