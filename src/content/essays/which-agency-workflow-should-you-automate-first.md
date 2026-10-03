@@ -11,7 +11,7 @@ Someone on your team checked campaign pacing this morning. Someone else pulled n
 
 A demo of a media plan built in seconds or a report that writes itself is more exciting. But it leaves out the part you'll have to figure out: whose judgment goes into the work, how often the process changes, and who catches a mistake before it reaches a client.
 
-At KORTX, automated monitors check campaigns for pacing problems and zero spend. When a monitor catches an issue, it opens a ticket with an owner and a deadline. A person investigates and decides what to change.
+At KORTX, automated monitors track a range of campaign variables and flag issues that need attention. When a monitor catches an issue, it opens a ticket with an owner and a deadline. A person investigates and decides what to change.
 
 That's a useful first project: a defined task, a result someone can check, and a person still making the spending decision.
 
@@ -57,7 +57,7 @@ The 3 in the last column assumes you keep the existing human review while you ev
 
 My starting rule is to <mark>automate a check before you automate an action.</mark> It gives the team a chance to see how the automation behaves while a person still decides what to do.
 
-Our monitors now watch every campaign for pacing problems, zero spend and missing campaign connections. When one trips, it opens a ticket with an owner and a deadline. We're still tuning the alerts so that what fires is worth a person's time.
+Pacing problems, zero spend and missing campaign connections are a few examples of what our monitors check across every campaign. When one trips, it opens a ticket with an owner and a deadline. We're still tuning the alerts so that what fires is worth a person's time.
 
 ## The one I'd hold off on
 
