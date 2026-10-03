@@ -11,7 +11,7 @@ Someone on your team checked campaign pacing this morning. Someone else pulled n
 
 A demo of a media plan built in seconds or a report that writes itself is more exciting. But it leaves out the part you'll have to figure out: whose judgment goes into the work, how often the process changes, and who catches a mistake before it reaches a client.
 
-At KORTX, we've started automating campaign checks. When a monitor catches a pacing problem or zero spend, it opens a ticket with an owner and a deadline. A person investigates and decides what to change.
+At KORTX, automated monitors check campaigns for pacing problems and zero spend. When a monitor catches an issue, it opens a ticket with an owner and a deadline. A person investigates and decides what to change.
 
 That's a useful first project: a defined task, a result someone can check, and a person still making the spending decision.
 
