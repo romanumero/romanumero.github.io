@@ -1,0 +1,1 @@
+import{t as e}from"./track.Drr8cCEV.js";var t=new URLSearchParams(location.search).get(`list`);t&&document.querySelector(`[data-msg="${CSS.escape(t)}"]`)&&document.querySelectorAll(`[data-msg]`).forEach(e=>e.hidden=e.dataset.msg!==t),e(`Signup`,{list:t??`newsletter`});
