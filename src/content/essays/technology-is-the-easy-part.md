@@ -4,6 +4,7 @@ description: "Everyone can agree a process is broken. Getting people to change h
 date: 2026-10-08
 track: process
 format: essay
+part: 4
 ---
 
 Getting a room full of people to agree that there's a problem is usually pretty easy.
