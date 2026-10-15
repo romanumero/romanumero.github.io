@@ -25,6 +25,7 @@ const editUrl =
 
 <Base title={title} description={description} type="article">
 	<article class="col">
+		<header class="post-header">
 		{draft && <p class="draft-note">{essay.collection === 'drafts' ? <>Private draft (damonhenry-drafts). Publish with <code>npm run publish {essay.id}</code>.</> : <>Draft: visible in dev only. Set <code>draft: false</code> to publish.</>}</p>}
 		<div class="eyebrow">
 			{FORMAT_LABEL[format]} · <a href={`/tracks/${track}/`}>{trackById(track).label}</a>
@@ -41,6 +42,8 @@ const editUrl =
 			</div>
 		</div>
 
+		</header>
+
 		<div class="prose"><slot /></div>
 
 		<div class="end">
@@ -51,7 +54,19 @@ const editUrl =
 </Base>
 
 <style>
-	.col { max-width: 680px; margin: 0 auto; padding: 56px 24px 80px; }
+	.col { --post-wide: min(1080px, calc(100vw - 48px)); max-width: 1128px; margin: 0 auto; padding: 56px 24px 80px; }
+	.post-header { max-width: 900px; margin-inline: auto; }
+	.prose, .end { max-width: 720px; margin-inline: auto; }
+	.prose { overflow-wrap: break-word; }
+	/* Figures and interactive explainers share a wider, centered canvas. */
+	.prose :global(figure), .prose :global(.lab) {
+		width: var(--post-wide);
+		max-width: none;
+		margin-inline: calc((100% - var(--post-wide)) / 2) !important;
+	}
+	@media (max-width: 860px) {
+		.col { --post-wide: 100%; padding-inline: 20px; }
+	}
 	.draft-note { font: 13px var(--mono); background: var(--mark); padding: 8px 12px; border-radius: 6px; }
 	.eyebrow a { text-decoration: none; }
 	.eyebrow a:hover { color: var(--fg); }
