@@ -1,0 +1,118 @@
+---
+title: "Easy to Build, Hard to Run: What We're Learning From AI Skills"
+description: "Teams at KORTX now build their own AI skills for intake and campaign audits. A skill can describe how the work should be done. It can't promise the work was done. Here's where we draw the line."
+date: 2026-10-15
+track: ai
+format: essay
+part: 2
+---
+
+import Monday from '@components/Monday.astro';
+
+Our sales team built its own intake tool this year.
+
+Not engineering. Sales. The first version took a few days, and they spent the next few weeks refining it. It walks a seller through a new campaign request section by section, fills obvious gaps, flags what's missing and hands the strategy team a clean summary.
+
+Before that, intake went into our workflow system and then came the back-and-forth: a question from strategy, an answer from sales, a follow-up to the client, another question. Days of it, on a good campaign.
+
+In January I wrote that [the terminal was never the problem, access was](/essays/the-terminal-was-never-the-problem/). This is what access looks like nine months later. The people who know the work best are building the tools for it.
+
+It's also where the harder questions start.
+
+## What a skill is
+
+A skill is a saved set of instructions an AI assistant follows for a specific job. "Here's how we review a campaign request. Ask these questions. Check these things. Write the summary like this." We use Claude, but the idea is the same as a custom GPT or a well-kept library of prompts.
+
+Skills spread for a simple reason: anyone who can explain a job can write one, and it works on day one. We have about a dozen in use or rolling out now. Ad operations built one to audit live campaigns: does delivery match the geography in the plan, do flight dates and budgets match what's set up in the buying platform, and do the goals, creative and ad groups look right.
+
+## What they get right
+
+The best thing about these skills isn't the AI. It's that someone finally wrote the process down.
+
+The intake skill captures things that used to live in a few experienced sellers' heads. It records where every answer came from (the client, our recommendation, or the seller's estimate), so the strategy team knows what's firm and what's a guess. It won't present a projection as a promise. It only suggests outside vendors when the campaign actually needs one.
+
+That's institutional knowledge, written in plain language, by the people who own it. Most agencies never get that far.
+
+## Instructions aren't controls
+
+Here's the catch. A skill describes how the work should be done. It can't promise the work was done.
+
+Compare two versions of the same check: do the campaign's budget and flight dates match what was approved?
+
+Written as a rule in your systems, the check runs every time. It compares the fields, records the result, and either lets the campaign move on or stops it.
+
+Written as a skill, the check is a request. The AI reads the instructions, decides what to look at, and tells you it passed. It usually gets it right. It can also skip a step, read an old version of the data, or report success on a check it didn't finish, and the answer reads just as confidently either way.
+
+Right 99 times out of 100 sounds great. Run it across 10,000 budget checks a year, and that's 100 wrong ones nobody flagged. (That's a hypothetical, but the math isn't.)
+
+<mark>A skill describes how the work should be done. It can't promise the work was done.</mark>
+
+We saw a version of this ourselves. A skill produced rates and product details that no longer matched what we sell. Nothing about the skill was broken: the rates were written into its instructions, and the rate card had moved on. Our operations team caught it. But it showed us the real problem. Every copy of the rate card is a copy that can drift.
+
+## Rules, reading and decisions
+
+So which parts of a job belong in a skill? In [the Jev post](/essays/jev-cant-write-a-sentence/) I argued for using simple rules before reaching for a model. Skills make that line easier to see, because when you look closely, a single skill is usually doing three different kinds of work.
+
+Take our intake skill and sort what it does:
+
+- **Rules.** Campaign minimums. Rates. Minimum flight length. The math for how many audience groups a budget can support. Each one is an if-then statement the AI is asked to apply correctly, every time. Those belong in software, where they're checked the same way on every campaign and changed in one place.
+- **Reading.** Making sense of a messy client brief or an RFP. Working out the advertiser's category from their website. Noticing that a site's forms aren't being tracked. Coaching a seller who isn't sure what to ask. Writing the handoff summary. This is where the skill earns its keep. No rule could do it.
+- **Decisions.** Whether to accept a deal below the minimum. Whether a measurement study is in scope. How closely to follow a plan the client handed us. Those belong to a person, and the skill's job is to put them in front of the right one.
+
+<mark>Rules belong in software. Reading is where AI earns its keep. Decisions belong to a person.</mark>
+
+When a skill does all three, the reading makes it look smart, and the rules hide inside the instructions. Pull the rules out, and the skill gets smaller and more reliable at the same time.
+
+## What a skill shouldn't own
+
+The same line applies to anything that has to be true tomorrow.
+
+Picture a campaign due to launch on the 15th. The creative isn't ready, so it's on hold until the agency responds. Somebody has to keep track of the status, the original and new launch dates, the owner, the follow-up deadline, and what has to happen before it can go live.
+
+A skill can draft the note to the agency and explain what's holding things up. It shouldn't be the place any of those facts live. A conversation ends. A status has to stay put.
+
+Here's how we split it:
+
+| Let skills | Keep in your systems |
+|---|---|
+| Read and interpret messy inputs | Budgets and rates |
+| Investigate why something looks off | Launch approval |
+| Explain pacing or performance | Campaign status and deadlines |
+| Draft communications | Who can see which client's data |
+| Recommend a fix | Changes to platform settings |
+
+The audit skill sits right on this line. Checking that delivery, dates and budgets match the plan is rule work, so our engineering team is rebuilding those checks as software. Reviewing goals, creative and ad groups needs judgment, so that's where AI keeps helping.
+
+The skill wasn't a mistake. It was the clearest specification engineering has ever been handed, written by the people who do the audits.
+
+## Easy to build means easy to multiply
+
+A dozen skills look like a dozen standardized procedures. They're really a dozen sets of instructions, each written by a different person, each changing whenever someone improves it.
+
+That raises questions most teams don't ask until something goes wrong. Who changed the audit skill last week? Did the change break anything? Which version gave that answer last month? Does it reach client data nobody reviewed?
+
+<mark>A skill is software written in sentences.</mark> It needs some of what software needs, scaled to the risk. A skill that summarizes a call needs very little. One that touches rates, budgets or launch dates needs a lot more.
+
+## Where we're drawing the line
+
+Here's what we're putting in place:
+
+1. **One source for rates and products.** Skills read from the same rate card and product list as everything else. No skill keeps its own copy. When the rate card changes, every tool sees the change at once.
+2. **An owner for every skill.** A name, not a team. That person keeps it current, approves changes and retires it when it's no longer used.
+3. **A check before anything reaches a client.** Anything a skill produces that a client will see passes a check against our systems or a person first. (It's the same principle as [automating a check before an action](/essays/which-agency-workflow-should-you-automate-first/).)
+
+None of that slows anyone down. The sales team still builds what it needs. The difference is what the tool is allowed to be in charge of.
+
+The test I keep coming back to: if the AI tool disappeared tomorrow, what would stop working?
+
+The healthy answer is that the work keeps running. Campaigns launch, budgets reconcile, statuses stay accurate. We'd lose the smart part, the reading and explaining and drafting, and we'd miss it. But nothing would break.
+
+<mark>Make your operation smarter with AI, not dependent on it.</mark>
+
+<Monday>
+1. List every skill, custom GPT and saved prompt your team relies on. Ask around; there are more than you think.
+2. Put one person's name next to each.
+3. Note what client data and tools each one can reach.
+4. Find the rules hiding inside the instructions: rates, minimums, thresholds, dates. Each one should live in one place your systems control.
+5. Circle anything that decides money, dates or a launch. Those need a rule or a person behind them, not just instructions.
+</Monday>
